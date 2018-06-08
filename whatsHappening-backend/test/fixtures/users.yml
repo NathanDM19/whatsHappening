@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyText
+  password_digest: MyString
+  admin_flag: false
+
+two:
+  name: MyText
+  password_digest: MyString
+  admin_flag: false
