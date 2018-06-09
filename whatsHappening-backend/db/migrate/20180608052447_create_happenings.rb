@@ -6,11 +6,11 @@ class CreateHappenings < ActiveRecord::Migration[5.2]
       t.text :address
       t.float :latitude
       t.float :longitude
-      t.text :type
+      t.text :happening_type
       t.text :description
-      t.date :date
-      t.string :start_time
-      t.string :end_time
+      t.text :url
+      t.text :when
+      t.text :time
 
       t.timestamps
     end
