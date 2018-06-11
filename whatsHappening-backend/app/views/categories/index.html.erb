@@ -1,0 +1,38 @@
+<h1>All Categories</h1>
+<div class="container">
+  <div class="row borderBottom">
+    <div class="col">
+      Name
+    </div>
+    <div class="col">
+      Parent Category ID
+    </div>
+    <div class="col">
+      <div class="btn btn-success">
+      <%= link_to "Create Category", new_category_path, class: "button" %>
+      </div>
+    </div>
+    <div class="col">
+    </div>
+  </div>
+  <% @Categories.each do |category| %>
+  <div class="row borderBottom">
+    <div class="col">
+      <%= category.name %>
+    </div>
+    <div class="col">
+      <%= category.parent_category_id %>
+    </div>
+    <div class="col">
+      <div class="btn btn-primary">
+        <%= link_to "Edit Categoy", edit_category_path(category.id), class: "button" %>
+      </div>
+    </div>
+    <div class="col">
+      <div class="btn btn-danger">
+        <%= link_to "Delete Category", category_path(category), class:"button", method: :delete %>
+      </div>
+    </div>
+  </div>
+  <% end %>
+</div>

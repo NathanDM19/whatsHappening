@@ -1,0 +1,23 @@
+<h1><%= @Happening.name %></h1>
+<p>City: <%= @Happening.city %></p>
+<p>Address: <%= @Happening.address %></p>
+<p>Latitude: <%= @Happening.latitude %></p>
+<p>Longitude: <%= @Happening.longitude %></p>
+<p>Type: <%= @Happening.happening_type %></p>
+<p>Description: <%= @Happening.description %></p>
+<p>URL: <%= @Happening.url %></p>
+<p>When: <%= @Happening.when %></p>
+<p>Time: <%= @Happening.time %></p>
+<% @Happening.categories.each do |category| %>
+  <% if !category.parent_category_id %>
+    <% tempId = category.id %>
+    <p><%= category.name %>:</p>
+    <ul>
+    <% @Happening.categories.each do |category| %>
+      <% if category.parent_category_id == tempId %>
+        <li><%= category.name %></li>
+      <% end %>
+    <% end %> 
+    </ul>
+  <% end %>
+<% end %>

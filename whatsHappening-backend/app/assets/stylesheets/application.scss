@@ -13,3 +13,30 @@
  *= require_tree .
  *= require_self
  */
+
+ @import "bootstrap";
+body {
+  margin-left: 10px;
+}
+.borderBottom {
+   border-bottom: 1px solid black;
+   padding: 5px 0;
+}
+h1 {
+  text-align: center;
+}
+.button, .button:hover {
+  color: white;
+  text-decoration: none;
+}
+.form-group {
+  width: 40%;
+  margin: 0 auto;
+}
+.cancelButton {
+  float: right;
+  margin-bottom: 50px;
+}
+.submitButton {
+  float: left;
+}

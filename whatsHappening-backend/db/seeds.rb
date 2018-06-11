@@ -15,8 +15,8 @@ Attendance.destroy_all
 u1 = User.create name: "Brendan", admin_flag: true, password: "chicken", password_confirmation: "chicken"
 u2 = User.create name: "Nathan", admin_flag: true, password: "chicken", password_confirmation: "chicken"
 u3 = User.create name: "Luke", admin_flag: false, password: "chicken", password_confirmation: "chicken"
-u3 = User.create name: "Grant", admin_flag: false, password: "chicken", password_confirmation: "chicken"
-u3 = User.create name: "Linna", admin_flag: false, password: "chicken", password_confirmation: "chicken"
+u4 = User.create name: "Grant", admin_flag: false, password: "chicken", password_confirmation: "chicken"
+u5 = User.create name: "Linna", admin_flag: false, password: "chicken", password_confirmation: "chicken"
 puts "Created [#{ User.all.length }] Users"
 
 # Happening
@@ -40,45 +40,55 @@ c4 = Category.create name:"Singles", parent_category_id:1
 c5 = Category.create name:"Young Adults", parent_category_id:1
 c6 = Category.create name:"Adults", parent_category_id:1
 c7 = Category.create name:"Cost"
-c8 = Category.create name:"Free", parent_category_id:6
-c9 = Category.create name:"Entrance Fee", parent_category_id:6
+c8 = Category.create name:"Free", parent_category_id:7
+c9 = Category.create name:"Entrance Fee", parent_category_id:7
 puts "Created [#{ Category.all.length }] Categories"
 
 # H1 = Rocks Markets
+h1.categories << c1
 h1.categories << c3
 h1.categories << c4
 h1.categories << c5
 h1.categories << c6
+h1.categories << c7
 h1.categories << c8
 
 # # H2 = Bridge Climb
+h2.categories << c1
 h2.categories << c4
 h2.categories << c5
 h2.categories << c6
+h2.categories << c7
 h2.categories << c9
 
 # H3 = Museum of Contempory Art
+h3.categories << c1
 h3.categories << c2
 h3.categories << c3
 h3.categories << c4
 h3.categories << c5
 h3.categories << c6
+h3.categories << c7
 h3.categories << c8
 
 # H4 = Rocks Discovery Museum
+h4.categories << c1
 h4.categories << c2
 h4.categories << c3
 h4.categories << c4
 h4.categories << c5
 h4.categories << c6
+h4.categories << c7
 h4.categories << c8
 
 # H5 = Bridge Walk
+h5.categories << c1
 h5.categories << c2
 h5.categories << c3
 h5.categories << c4
 h5.categories << c5
 h5.categories << c6
+h5.categories << c7
 h5.categories << c8
 
 # Happenings Dates
