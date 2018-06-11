@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css?family=Arvo:400,700|Lato|Open+Sans');
+
+body {
+  margin: 0px;
+  padding: 0px;
+  /* display: grid; */
+  min-height: 100vh; /* does this work */
+  font-family: 'Lato', sans-serif;
+  /* font-family: 'Open Sans', sans-serif; */
+}
+
+/* 
+  Site / Class Hierarchy: 
+    { site-wrapper }
+      { site-header <header> tag }
+      { homepage-map <div> tag }
+      { homepage-featured <div> tag }
+      { site-footer <footer> tag }
+    { site-wrapper - END }
+*/
+
+.site-wrapper {
+  display: grid;
+  min-height: 100vh;
+  grid-template-columns: auto;
+  grid-template-rows: 56px auto 200px 100px;
+}
+
+.site-header {
+  grid-row-start: 1;
+  grid-row-end: 2;
+  background-color: #fff;
+  box-shadow: 0 1px 2px rgba(51, 51, 51, 0.1);
+}
+
+.homepage-map {
+  grid-row-start: 2;
+  grid-row-end: 3;
+  background-color:green;
+  background-image: url('../images/front2.png');
+  background-size: 100% auto;
+}
+
+.homepage-featured {
+  grid-row-start: 3;
+  grid-row-end: 4;
+  /* background-color: #ecf0f5 */
+  background-color: hotpink;
+}
+
+.site-footer {
+  grid-row-start: 4;
+  grid-row-end: 5;
+
+  background: #fff;
+}
+
+.navbar-brand {
+  font-family: 'Arvo', serif;
+  font-weight: 900;
+  font-size: 16px;
+  text-transform: uppercase;
+  padding-left: .4125rem;
+  padding-right: .4125rem;
+}
+
+.navbar-light {
+  color: white;
+}
+
+.nav-item {
+  width: 200px;
+  text-align: center;
+}
