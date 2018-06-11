@@ -1,0 +1,44 @@
+<h1>All Happenings</h1>
+<div class="container">
+  <div class="row borderBottom">
+    <div class="col">
+      Name
+    </div>
+    <div class="col">
+      Address
+    </div>
+    <div class="col">
+      Type
+    </div>
+    <div class="col">
+      <div class="btn btn-success">
+        <%= link_to "New Happening", new_happening_path, class: "button" %>
+      </div>
+    </div>
+    <div class="col">
+    </div>
+  </div>
+  <% @Happenings.each do |happening| %>
+  <div class="row borderBottom">
+    <div class="col">
+      <%= link_to happening.name, happening_path(happening.id) %>
+    </div>
+    <div class="col">
+      <%= happening.address %>
+    </div>
+    <div class="col">
+      <%= happening.happening_type %>
+    </div>
+    <div class="col">
+      <div class="btn btn-primary">
+        <%= link_to "Edit Happening", edit_happening_path(happening.id), class: "button" %>
+      </div>
+    </div>
+    <div class="col">
+      <div class="btn btn-danger">
+        <%= link_to "Delete Happening", happening_path(happening), class:"button", method: :delete %>
+      </div>
+    </div>
+  </div>
+  <% end %>
+</div>

@@ -1,0 +1,12 @@
+<%= form_for(@Category) do |f| %>
+<div class="form-group">
+  <%= f.label :name%>
+  <%= f.text_field :name, class: "form-control" %>
+  <br>
+  <%= f.label :parent_category_id%>
+  <%= f.text_field :parent_category_id, class: "form-control" %>
+  <br>
+  <%= f.submit class:"btn btn-primary submitButton"%>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+  <%= link_to "Cancel", categories_path, class:"btn btn-primary cancelButton"%>
+  <% end %>
+</div>

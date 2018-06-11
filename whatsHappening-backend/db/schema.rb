@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_08_053046) do
+ActiveRecord::Schema.define(version: 2018_06_09_072149) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,9 +30,19 @@ ActiveRecord::Schema.define(version: 2018_06_08_053046) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "categories_happenings", force: :cascade do |t|
-    t.integer "category_id"
+  create_table "categories_happenings", id: false, force: :cascade do |t|
+    t.bigint "category_id"
+    t.bigint "happening_id"
+    t.index ["category_id"], name: "index_categories_happenings_on_category_id"
+    t.index ["happening_id"], name: "index_categories_happenings_on_happening_id"
+  end
+
+  create_table "happening_dates", force: :cascade do |t|
     t.integer "happening_id"
+    t.date "date"
+    t.boolean "daily_flag"
+    t.time "start_time"
+    t.time "end_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -43,11 +53,11 @@ ActiveRecord::Schema.define(version: 2018_06_08_053046) do
     t.text "address"
     t.float "latitude"
     t.float "longitude"
-    t.text "type"
+    t.text "happening_type"
     t.text "description"
-    t.date "date"
-    t.string "start_time"
-    t.string "end_time"
+    t.text "url"
+    t.text "when"
+    t.text "time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
