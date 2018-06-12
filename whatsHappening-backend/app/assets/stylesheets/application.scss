@@ -15,9 +15,6 @@
  */
 
  @import "bootstrap";
-body {
-  margin-left: 10px;
-}
 .borderBottom {
    border-bottom: 1px solid black;
    padding: 5px 0;
@@ -39,4 +36,46 @@ h1 {
 }
 .submitButton {
   float: left;
+}
+.topShowDiv, .middleShowDiv {
+  width: 78%;
+  margin: 0 auto;
+}
+.mainShowDiv {
+  background-color: lightgrey;
+  overflow: auto;
+}
+.placeholderImage {
+  width: 750px;
+  height: 400px;
+  background: black;
+  position: relative;
+  top: 15px;
+  margin-bottom: 30px;
+}
+.rectangles {
+  width: 31.55%;
+  height: 50px;
+  background: white;
+  display: inline-block;
+  margin-right: 20px;
+  text-align: center;
+  padding-top: 15px;
+}
+.rectangle3 {
+  margin-right: 0;
+}
+.rectangles:hover {
+  cursor: pointer;
+}
+.bottomShow {
+  background: white;
+  padding: 20px 30px;
+  height: 350px;
+}
+.leftMiddleShowDiv {
+  width: 750px;
+}
+.paddingBelow {
+  height: 100px;
 }

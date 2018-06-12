@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   get 'home/index'
   get '/happenings.json' => 'happenings#json'
+  get '/happenings/:id.json' => 'happenings#single_json'
 
   root to: 'home#index'
 

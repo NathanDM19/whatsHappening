@@ -37,6 +37,10 @@ class HappeningsController < ApplicationController
     render json: Happening.all, include: [:happening_dates, {attendances: {include: [:users]}}, :categories]
   end
 
+  def single_json
+    render json: Happening.find(params[:id]), include: [:happening_dates, {attendances: {include: [:users]}}, :categories]
+  end
+
   private
   def happening_params
     params.require(:happening).permit(:name, :city, :address, :latitude, :longitude, :happening_type, :description, :url, :when, :time)

@@ -115,3 +115,18 @@ body {
 .btn {
   margin-top: 8px;
 }
+.resultDropdownDiv {
+  position: relative;
+  top: -42px;
+}
+.resultDropdown {
+  background-color: white;
+  height: 40px;
+  font-size: 25px;
+  border-bottom: 1px solid black;
+  padding-left: 5px;
+}
+.resultDropdown:hover {
+  cursor: pointer;
+  background: lightgrey;
+}
