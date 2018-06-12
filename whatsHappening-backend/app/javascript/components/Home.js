@@ -1,22 +1,18 @@
 import React, {Component} from 'react';
-import { Button, Alert } from 'react-bootstrap';
-import Header from './Header'
+import Header from './Header';
+import SiteContent from './SiteContent';
+import Footer from './Footer';
+import '../styles/application.css'
 
-class Home extends Component {
+export default class Home extends Component {
+
   render() {
     return (
       <div className='site-wrapper'>
-        <Header className='site-header'/>
-        <div className='homepage-map'>MAP
-        <Alert color="primary">
-        This is a primary alert — check it out!
-        </Alert>
-        </div>
-        <div className='homepage-featured'>FEATURED</div>
-        <footer className='site-footer'>FOOTER</footer>
+        <Header />
+        <SiteContent />
+        <Footer />
       </div>
     )
   }
 }
-
-export default Home;

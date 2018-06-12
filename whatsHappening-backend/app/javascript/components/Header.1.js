@@ -1,3 +1,4 @@
+import '../styles/application.css'
 import React from 'react';
 import {
   Collapse,
@@ -28,8 +29,8 @@ export default class Header extends React.Component {
   }
   render() {
     return (
-      <div className='site-header'>
-        <Navbar color="light" light expand="lg">
+      <div>
+        <Navbar color="light" light expand="md">
           <NavbarBrand href="/">What's Happening?</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
