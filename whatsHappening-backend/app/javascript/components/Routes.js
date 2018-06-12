@@ -4,6 +4,7 @@ import Home from './Home'
 import Show from './Show'
 import { Switch } from 'react-router-dom'
 import Test from './Test'
+import '../styles/application.css'
 
 const Routes = (
   <Router>
