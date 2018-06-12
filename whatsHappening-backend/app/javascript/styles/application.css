@@ -128,4 +128,5 @@ body {
 }
 .resultDropdown:hover {
   cursor: pointer;
+  background: lightgrey;
 }
