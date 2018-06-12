@@ -1,4 +1,5 @@
 whatsHappening-backend/log/*
 whatsHappening-backend/tmp/*
-whatsHappening-backend/node_modules
-whatsHappening-backend/public/packs
+whatsHappening-backend/node_modules/
+whatsHappening-backend/public/packs/
+whatsHappening-backend/yarn.lock

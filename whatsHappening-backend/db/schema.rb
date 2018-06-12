@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 2018_06_09_072149) do
     t.text "time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["latitude", "longitude"], name: "index_happenings_on_latitude_and_longitude"
   end
 
   create_table "users", force: :cascade do |t|

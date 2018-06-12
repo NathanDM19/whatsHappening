@@ -34,7 +34,7 @@ body {
 
 .site-content {
   display: grid;
-  grid-template-columns: 150px auto 150px;
+  grid-template-columns: 320px auto 320px;
   grid-template-rows: auto;
 
   grid-row-start: 2;
