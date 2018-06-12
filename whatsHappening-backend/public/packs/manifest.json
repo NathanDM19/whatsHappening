@@ -1,8 +1,9 @@
 {
-  "Routes.js": "/packs/Routes-763ac47f099979ea5d0f.js",
-  "Routes.js.map": "/packs/Routes-763ac47f099979ea5d0f.js.map",
-  "application.js": "/packs/application-6896f96586c96f18126c.js",
-  "application.js.map": "/packs/application-6896f96586c96f18126c.js.map",
-  "hello_react.js": "/packs/hello_react-c0e9624e8ec867c3b304.js",
-  "hello_react.js.map": "/packs/hello_react-c0e9624e8ec867c3b304.js.map"
+  "application.css": "/packs/application-adefd84bf1ae4ed4920f1c1ee7d6cf03.css",
+  "application.css.map": "/packs/application-adefd84bf1ae4ed4920f1c1ee7d6cf03.css.map",
+  "application.js": "/packs/application-e086e0afbbb8e45b0155.js",
+  "application.js.map": "/packs/application-e086e0afbbb8e45b0155.js.map",
+  "hello_react.js": "/packs/hello_react-0dfb6af692cf87e8dc41.js",
+  "hello_react.js.map": "/packs/hello_react-0dfb6af692cf87e8dc41.js.map",
+  "images/front2.png": "/packs/images/front2-f7e803762b6e8693ed7c5272d19c41d9.png"
 }
