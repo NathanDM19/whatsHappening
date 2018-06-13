@@ -33,6 +33,11 @@ class HappeningsController < ApplicationController
     redirect_to happenings_path
   end
   
+  def near
+    @happenings_near = Happening.near([params[:lat], params[:long]], params[:proximity])
+    render :json => @happenings_near.as_json
+  end
+
   def json
     render json: Happening.all, include: [:happening_dates, {attendances: {include: [:users]}}, :categories]
   end

@@ -3,4 +3,7 @@ class Happening < ApplicationRecord
   has_many :attendances
   has_many :users, through: :attendances
   has_many :happening_dates
+
+  geocoded_by :address
+  after_validation :geocode
 end

@@ -30,6 +30,8 @@ h4 = Happening.create name:"The Rocks Discovery Museum",city:"Sydney",address:"K
 
 h5 = Happening.create name:"Sydney Harbour Bridge",city:"Sydney",address:"100 Cumberland St, The Rocks",latitude:-33.8590847,longitude:151.20694520000006,happening_type:"Cultural",description:"You can walk across the bridge from either direction and it takes between 15-30 minutes depending on the pace you set. There is a safety fence all the way however you can poke your camera through the gaps and take shots like the one above.",url:"", when:"Never shuts", time:"Self-paced"
 
+h6 = Happening.create name:"Helenburgh Dev Playground",city:"Sydney",address:"44 Handley St, Helensburgh",happening_type:"Festival",description:"Lots of super cool stuff here",url:"", when:"Never shuts", time:"Self-paced"
+
 puts "Created [#{ Happening.all.length }] Happenings"
 
 # Category

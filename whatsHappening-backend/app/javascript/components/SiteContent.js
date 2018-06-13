@@ -9,7 +9,7 @@ export default class SiteContent extends React.Component {
   render() {
     return (
       <div className='site-content'>
-        <SiteMain />
+        <SiteMain history={ this.props.history }/>
       </div>
     );
   }
