@@ -1,9 +1,10 @@
 import React from 'react';
-import { Button, Form, Label, Input, FormText } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
-const TOKEN = "pk.eyJ1IjoibmF0aGFuZG0xOSIsImEiOiJjamliNDNuY3ExZTN6M3FwZmxnNjhkd3d5In0.tg6mrqeNeX5XujlPmN1V9Q"
-
+const mapboxAccessToken = 'pk.eyJ1IjoiZ3Jvb3RoZXdhbmRlcmVyIiwiYSI6ImNqaWI3MmQ2aTFmM3ozcG5iaGMzMW9oc3QifQ.CwYqjyg85TWZYLiwBxbg8w';
+const mapboxUrlPrefix = 'https://api.mapbox.com/geocoding/v5/mapbox.places';
 
 export default class SiteMain extends React.Component {
   constructor(props) {
@@ -17,41 +18,43 @@ export default class SiteMain extends React.Component {
     }
 
     this._handleLocationChange = this._handleLocationChange.bind( this );
-    this._handleSubmit = this._handleSubmit.bind(this);
-    this.fillSearch = this.fillSearch.bind(this)
+    this._handleSubmit = this._handleSubmit.bind( this );
+    this.fillSearch = this.fillSearch.bind( this );
   }
 
   _handleSubmit( event ){
     event.preventDefault();
-    const locationToSearch = this.state.locationToSearch;
+    // Check if the close5 array is populated. If it is use it
+    let latitude;
+    let longitude;
+    const proximity = 1;
 
-    const accessToken = 'pk.eyJ1IjoiZ3Jvb3RoZXdhbmRlcmVyIiwiYSI6ImNqaWI3MmQ2aTFmM3ozcG5iaGMzMW9oc3QifQ.CwYqjyg85TWZYLiwBxbg8w';
-    const queryString = `https://api.mapbox.com/geocoding/v5/mapbox.places/${ this.state.locationToSearch }.json?&access_token=${ accessToken }&types=locality&country=AU`;
-console.log('queryString: ', queryString );
-    const performGeocoding = () => axios.get( queryString )
-    .then( response => {
-      this.setState({ mapBoxGeocodedLocation: response.data });
-      console.log( this.state.mapBoxGeocodedLocation )
-    });
-
-    performGeocoding();
+    if ( this.state.close5.length > 0 ){
+      const foundLocation = this.state.close5[0];
+      
+      longitude = foundLocation.center[0];
+      latitude = foundLocation.center[1];
+    }
+    
+    this.props.history.push(`/search/${ latitude }/${ longitude }/${ proximity }`);
   }
 
   _handleLocationChange(event) {
     this.setState({ locationToSearch: event.target.value });
     if (event.target.value.length >= 3) {
-      this.fetchGeo(event.target.value)
+      this.fetchGeo( event.target.value )
     } else {
-      this.setState({newSearch: true})
+      this.setState({ newSearch: true })
     }
   }
+
   fetchGeo = query => {
-    axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?&access_token=${TOKEN}&country=AU&types=postcode,locality`)
+    axios.get(`${ mapboxUrlPrefix }/${ query }.json?&access_token=${ mapboxAccessToken }&country=AU&types=postcode,locality`)
       .then(response => {
-        console.log(response.data)
         this.setState({close5: response.data.features})
       })
   }
+
   fillSearch(place) {
     this.setState({locationToSearch: place.place_name, newSearch: false})
   }

@@ -16,7 +16,7 @@ class Test extends Component {
         zoom: 20,
         bearing: 0,
         pitch: 0,
-        width: 500,
+        width: 1400,
         height: 500,
       }
     }
