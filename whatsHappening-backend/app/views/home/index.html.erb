@@ -1,3 +1,4 @@
-<div id="root"></div>
+<div user=<%= session[:user_id].to_json %> id="root"></div>
+
 <%= javascript_pack_tag 'application' %>
 <%= stylesheet_pack_tag 'application' %>

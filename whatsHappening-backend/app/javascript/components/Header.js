@@ -10,7 +10,10 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem } from 'reactstrap';
+  DropdownItem
+} from 'reactstrap';
+import axios from 'axios';
+
 
 export default class Header extends React.Component {
   constructor(props) {
@@ -18,8 +21,18 @@ export default class Header extends React.Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      user: {}
     };
+  }
+  componentDidMount() {
+    const fetchUser = () => {
+      axios.get(`http://localhost:3000/getuser.json`)
+        .then(response => {
+          this.setState({ user: response.data })
+        })
+    }
+    fetchUser()
   }
   toggle() {
     this.setState({
@@ -30,35 +43,15 @@ export default class Header extends React.Component {
     return (
       <div className='site-header'>
         <Navbar color="light" light expand="lg">
-          <NavbarBrand href="/">What's Happening?</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
+          <NavbarBrand href="/#/">What's Happening?</NavbarBrand>
+          <Nav className="ml-auto" navbar>
+            {this.state.user ? 
               <NavItem>
-                <NavLink href="/components/">Components</NavLink>
+                <NavLink className="inline floatRight" href="/logout">Logout</NavLink>
+                <NavLink className="inline floatRight" href="/#/profile">Profile</NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
-              </NavItem>
-              <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret>
-                  Options
-                </DropdownToggle>
-                <DropdownMenu right>
-                  <DropdownItem>
-                    Option 1
-                  </DropdownItem>
-                  <DropdownItem>
-                    Option 2
-                  </DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem>
-                    Reset
-                  </DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
-            </Nav>
-          </Collapse>
+              : <NavLink href="/login">Login</NavLink>}
+          </Nav>
         </Navbar>
       </div>
     );

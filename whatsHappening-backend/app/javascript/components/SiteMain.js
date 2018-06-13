@@ -2,8 +2,8 @@ import React from 'react';
 import { Button, Form, Label, Input, FormText } from 'reactstrap';
 import axios from 'axios';
 
-const TOKEN = "pk.eyJ1IjoibmF0aGFuZG0xOSIsImEiOiJjamliNDNuY3ExZTN6M3FwZmxnNjhkd3d5In0.tg6mrqeNeX5XujlPmN1V9Q"
 
+const TOKEN = "pk.eyJ1IjoibmF0aGFuZG0xOSIsImEiOiJjamliNDNuY3ExZTN6M3FwZmxnNjhkd3d5In0.tg6mrqeNeX5XujlPmN1V9Q"
 
 export default class SiteMain extends React.Component {
   constructor(props) {
@@ -61,7 +61,7 @@ console.log('queryString: ', queryString );
       <div className='site-main'>
         <div className='search-form'>
           <div className='search-inputs'>
-          <Label for="locationToSearch">Find happenings, events and things to do wherever you are ... </Label>
+            <Label onClick={this.test} for="locationToSearch">Find happenings, events and things to do wherever you are ... </Label>
             <Form onSubmit={ this._handleSubmit } >
               <Input type="text" name="locationToSearch" id="locationToSearch" placeholder="Search by city, suburb, region" onChange={this._handleLocationChange} value={this.state.locationToSearch}/>
               <Button>Search</Button>

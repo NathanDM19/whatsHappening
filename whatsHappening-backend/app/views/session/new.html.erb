@@ -1,0 +1,26 @@
+        <Navbar color="light" light expand="lg">
+          <NavbarBrand href="/#/">What's Happening?</NavbarBrand>
+          <Nav className="ml-auto" navbar>
+            {this.state.user ? 
+              <NavItem>
+                <NavLink className="inline floatRight" href="/logout">Logout</NavLink>
+                <NavLink className="inline floatRight" href="/#/profile">Profile</NavLink>
+              </NavItem>
+              : <NavLink href="/login">Login</NavLink>}
+          </Nav>
+        </Navbar>
+<div id="userNew">
+<h2>Login</h2>
+
+<strong><%= flash[:error] %></strong>
+
+<%= form_tag login_path do %>
+  <%= label_tag :name %>
+  <%= text_field_tag :name %>
+  <br>
+  <%= label_tag :password %>
+  <%= password_field_tag :password %>
+  <br>
+  <%= submit_tag "Login" %>
+<% end %>
+</div>

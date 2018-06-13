@@ -5,13 +5,16 @@ import Footer from './Footer';
 import '../styles/application.css'
 
 export default class Home extends Component {
+  constructor(props) {
+    super(props)
+  }
 
   render() {
     return (
       <div className='site-wrapper'>
-        <Header />
-        <SiteContent />
-        <Footer />
+        <Header/>
+        <SiteContent/>
+        <Footer/>
       </div>
     )
   }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import MapGL, { NavigationControl } from 'react-map-gl'
+import MapGL, { NavigationControl} from 'react-map-gl'
+import mapboxgl from 'mapbox-gl/dist/mapbox-gl'
 
 const SERVER_URL = "https://api.predicthq.com/v1"
 const TOKEN = "pk.eyJ1IjoibmF0aGFuZG0xOSIsImEiOiJjamliNDNuY3ExZTN6M3FwZmxnNjhkd3d5In0.tg6mrqeNeX5XujlPmN1V9Q"
@@ -10,16 +11,18 @@ class Test extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      zoom: 8,
       viewport: {
         latitude: -34.1909,
         longitude: 150.9822,
-        zoom: 20,
+        zoom: 8,
         bearing: 0,
         pitch: 0,
         width: 500,
         height: 500,
       }
     }
+    this.test = this.test.bind(this)
   }
   componentDidMount() {
     //   const fetchTest = () => {
@@ -38,15 +41,27 @@ class Test extends Component {
     }
     fetchGeo()
   }
-      
+  test(type) {
+    let tempVar = this.state.zoom
+    if (type === "+") {
+      tempVar += 1;
+      this.setState({ zoom: tempVar })
+    } else if (type === "-") {
+      tempVar -= 1;
+      this.setState({ zoom: tempVar })
+    }
+  }
   render() {
     const { viewport } = this.state
     return (
-      <MapGL {...viewport} mapboxApiAccessToken={TOKEN} mapStyle="mapbox://styles/mapbox/streets-v10">
+      <div>
+        <MapGL {...viewport} mapboxApiAccessToken={TOKEN} mapStyle="mapbox://styles/mapbox/streets-v10" InteractiveMap={true}>
+   
         </MapGL>
-      
+      </div>  
     )
   }
+  
 }
 
 export default Test
