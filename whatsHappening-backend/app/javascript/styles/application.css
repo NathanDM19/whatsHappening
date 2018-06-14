@@ -213,3 +213,12 @@ html, body {
   cursor: pointer;
   background: lightgrey;
 }
+.newSearchButton {
+  position: absolute;
+  top: 60px;
+  left: 320px;
+  z-index: 10
+}
+#searchArea {
+  display: none;
+}

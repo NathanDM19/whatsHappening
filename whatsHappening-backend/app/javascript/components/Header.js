@@ -81,6 +81,8 @@ export default class Header extends React.Component {
     let longitude;
     const proximity = 3;
     let type = this.state.type
+    let location = this.state.location;
+    let locationType = ""
 
     if (this.state.close5.length > 0) {
       for (let i = 0; i < this.state.close5.length; i++) {
@@ -88,10 +90,11 @@ export default class Header extends React.Component {
           const foundLocation = this.state.close5[i];
           longitude = foundLocation.center[0];
           latitude = foundLocation.center[1];
+          locationType = foundLocation.place_type;
         }
       }
     }
-    this.props.newSearch(latitude, longitude, type)
+    this.props.newSearch(latitude, longitude, type, location, locationType)
   }
 
   render() {
