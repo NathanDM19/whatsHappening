@@ -27,7 +27,7 @@ export default class SiteMain extends React.Component {
     // Check if the close5 array is populated. If it is use it
     let latitude;
     let longitude;
-    const proximity = 1;
+    const proximity = 3;
 
     if ( this.state.close5.length > 0 ){
       const foundLocation = this.state.close5[0];
@@ -66,7 +66,7 @@ export default class SiteMain extends React.Component {
           <div className='search-inputs'>
             <Label onClick={this.test} for="locationToSearch">Find happenings, events and things to do wherever you are ... </Label>
             <Form onSubmit={ this._handleSubmit } >
-              <Input type="text" name="locationToSearch" id="locationToSearch" placeholder="Search by city, suburb, region" onChange={this._handleLocationChange} value={this.state.locationToSearch}/>
+              <Input autocomplete="off" type="text" name="locationToSearch" id="locationToSearch" placeholder="Search by city, suburb, region" onChange={this._handleLocationChange} value={this.state.locationToSearch}/>
               <Button>Search</Button>
             </Form>
             {this.state.locationToSearch.length >= 3 && this.state.newSearch ?

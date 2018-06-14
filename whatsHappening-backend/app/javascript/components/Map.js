@@ -29,13 +29,13 @@ export default class Map extends React.Component {
     });
 
     map.on('move', (map) => {
-      const { longitude, latitude } = map.getCenter();
-      
-      this.setState({
-        longitude: longitude.toFixed(4),
-        latitude: latitude.toFixed(4),
-        zoom: map.getZoom().toFixed(2)
-      });
+      // const { longitude, latitude } = map.getCenter();
+      // console.log(map.getCenter)
+      // this.setState({
+      //   longitude: longitude,
+      //   latitude: latitude,
+      //   zoom: map.getZoom().toFixed(2)
+      // });
     });
   }
 

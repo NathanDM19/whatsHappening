@@ -124,14 +124,21 @@ body {
 }
 .resultDropdownDiv {
   position: relative;
-  top: -42px;
+  z-index: 100;
+  height: 1000px;
+  background: black;
+  top: -14px;
 }
 .resultDropdown {
   background-color: white;
   height: 30px;
+  width: 400px;
   font-size: 14px;
   border-bottom: 1px solid black;
   padding-left: 5px;
+}
+.locationHeader {
+  width: 400px;
 }
 .resultDropdown:hover {
   cursor: pointer;

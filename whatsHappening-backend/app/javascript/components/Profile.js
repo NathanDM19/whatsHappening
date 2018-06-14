@@ -24,7 +24,13 @@ class Profile extends React.Component {
     return (
       <div>
         <Header />
-        <div>Hello {this.state.user.name}</div>
+        <div className="mainShowDiv">
+          <div className="profileBody">  
+            <div className="placeholderPhoto">
+            </div>
+            <p className="inline up">{this.state.user.name}</p>
+          </div>  
+        </div>
       </div>
     )
   }

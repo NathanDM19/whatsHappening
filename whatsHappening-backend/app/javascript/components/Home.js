@@ -3,7 +3,7 @@ import Header from './Header';
 import SiteContent from './SiteContent';
 import Footer from './Footer';
 import '../styles/application.css'
-import '../styles/mapbox.css'
+// import '../styles/mapbox.css'
 
 export default class Home extends Component {
   constructor(props) {
@@ -11,9 +11,10 @@ export default class Home extends Component {
   }
 
   render() {
+    console.log("history", this.props.history)
     return (
       <div className='site-wrapper'>
-        <Header />
+        <Header history={this.props.history}/>
         <SiteContent history={ this.props.history }/>
         <Footer />
       </div>
