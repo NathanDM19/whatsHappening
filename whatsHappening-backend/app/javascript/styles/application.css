@@ -239,10 +239,12 @@ html, body {
 
 .badge-default {
   background-color: #d0d0d0;
+  color: #696969;
 }
 
 .badge-school-holidays {
   background-color: #ccccff;
+  color: #696969;
 }
 
 .badge-public-holidays {
@@ -251,6 +253,7 @@ html, body {
 
 .badge-observances {
   background-color: #ccffcc;
+  color: #696969;
 }
 
 .badge-politics {
@@ -280,10 +283,16 @@ html, body {
 
 .badge-sports {
   background-color: #ffff00;
+  color: #000000;
 }
 
 .badge-community {
   background-color: #00cc00;
+}
+
+.mapboxgl-popup {
+  max-width: 400px;
+  font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 }
 .titles:hover {
   cursor: pointer;

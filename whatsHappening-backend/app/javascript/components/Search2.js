@@ -13,7 +13,47 @@ function Footer() {
     </div>
   );
 }
-let map = ""
+
+function createGeoJSON( inputHappenings ){
+  let outputGeoJSON = {};
+
+  if ( inputHappenings ) {
+    // Initialise GeoJSON
+    outputGeoJSON = {
+      "id": "places",
+      "type": "symbol",
+      "source": {
+        "type": "geojson",
+        "data": {
+          "type": "FeatureCollection",
+          "features": []
+        }
+      } // end source
+    } // end let outputGeoJSON
+
+    // Loop over each happenings passed as an argument and add to geoJSON
+    inputHappenings.forEach(happening => 
+      outputGeoJSON.source.data.features.push(
+        {
+          "type": "Feature",
+          "properties": {
+            "description": `${ happening.name } - ${ happening.happening_type }`
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [ 
+              happening.longitude,
+              happening.latitude
+            ]
+          }
+        }
+      ) // end features.push
+    ); // end forEach
+  } // end if ( inputHappenings )
+  return outputGeoJSON;
+} // end function createGeoJSON
+
+let map = "";
 
 export default class Search extends Component {
   constructor(props) {
@@ -54,7 +94,7 @@ export default class Search extends Component {
       sports: '#ffff00',
       community: '#00cc00' 
     }
-  }
+  } // end constructor
 
   fetchPredict(longitude, latitude, type) {
     if (!longitude) {
@@ -62,65 +102,119 @@ export default class Search extends Component {
       latitude = this.state.latitude;
       type = this.state.type;
     }
+
+    let maxRequests = 1;
+    let offset = 0;
+    let tempArray = [];
+
     let proximity = this.state.proximity;
     const predictUrlPrefix = "https://api.predicthq.com/v1"
 
-    axios.get(`${predictUrlPrefix}/events/?within=${proximity}km@${latitude},${longitude}&q=${type}`, { headers: { Authorization: "Bearer wGTgFr7Ad0XF4eGGhnHdFPoksITNZJ" } })
-      .then(response => {
-        // console.log(response.data)
-        let tempArray = [];
-        for (let i = 0; i < response.data.results.length; i++) {
-          let tempObject = {}
-          let result = response.data.results[i]
-          tempObject.latitude = result.location[1]
-          tempObject.longitude = result.location[0]
-          tempObject.happening_type = result.category
-          tempObject.description = result.description
-          tempObject.name = result.title
-          tempObject.when = result.start
-          tempObject.time = result.end
-          tempObject.id = result.id
-          tempArray.push(tempObject);
-        }
-        // console.log(tempArray)
-        this.setState({ nearbyHappenings: tempArray });
-      })
-    axios.get(`${predictUrlPrefix}/events/?within=${proximity}km@${latitude},${longitude}&q=${type}&offset=10`, { headers: { Authorization: "Bearer wGTgFr7Ad0XF4eGGhnHdFPoksITNZJ" } })
-      .then(response => {
-        // console.log(response.data)
-        let tempArray = this.state.nearbyHappenings;
-        for (let i = 0; i < response.data.results.length; i++) {
-          let tempObject = {}
-          let result = response.data.results[i]
-          tempObject.latitude = result.location[1]
-          tempObject.longitude = result.location[0]
-          tempObject.happening_type = result.category
-          tempObject.description = result.description
-          tempObject.name = result.title
-          tempObject.when = result.start
-          tempObject.time = result.end
-          tempObject.id = result.id
-          tempArray.push(tempObject);
-        }
-        console.log(tempArray)
-        this.setState({ nearbyHappenings: tempArray });
-      })
-  }
+    for ( let request = 0; request < maxRequests; request++ ){
+      axios.get(`${predictUrlPrefix}/events/?within=${proximity}km@${latitude},${longitude}&q=${type}&offset=${ offset }`, { headers: { Authorization: "Bearer wGTgFr7Ad0XF4eGGhnHdFPoksITNZJ" } })
+        .then(response => {
+          for (let i = 0; i < response.data.results.length; i++) {
+            let result = response.data.results[i]
 
+            // Exclude certain categories
+            switch ( result.category ) {
+              case "school-holidays":
+              case "public-holidays":
+              case "observances":
+                continue;
+            }
+
+            let tempObject = {}
+            tempObject.latitude = result.location[1]
+            tempObject.longitude = result.location[0]
+            tempObject.happening_type = result.category
+            tempObject.description = result.description
+            tempObject.name = result.title
+            tempArray.push(tempObject);
+          }
+          this.setState({ nearbyHappenings: tempArray });
+        });
+      offset += 10;
+    }
+  } // end fetchPredict
 
   createMap() {
     if (this.mapContainer) {
       const { longitude, latitude, proximity, zoom } = this.state;
-      map = new mapboxgl.Map({
-        container: this.mapContainer,
-        style: 'mapbox://styles/mapbox/streets-v10',
-        center: [longitude, latitude],
-        zoom
-      });
 
-      // Add the map control
-      map.addControl(new mapboxgl.FullscreenControl());
-      
+      // if(!map){
+        map = new mapboxgl.Map({
+          container: this.mapContainer,
+          style: 'mapbox://styles/mapbox/streets-v10',
+          center: [longitude, latitude],
+          zoom
+        });
+        map.addControl(new mapboxgl.FullscreenControl());
+        
+        map.on('load', () => {
+          // map.addLayer( geoJSON )
+          map.addLayer({
+            "id": "places",
+            "type": "symbol",
+            "source": {
+                "type": "geojson",
+                "data": {
+                    "type": "FeatureCollection",
+                    "features": [{
+                        "type": "Feature",
+                        "properties": {
+                            "description": "James Cameron — Challenging the Deep",
+                            "icon": "theatre"
+                        },
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [151.197917, -33.869169]
+                        }
+                    }]
+                }
+            },
+            "layout": {
+                "icon-image": "{icon}-15",
+                "icon-allow-overlap": true
+            }
+          });
+
+          const popup = new mapboxgl.Popup({
+            closeButton: false,
+            closeOnClick: false
+          });
+
+          map.on('mouseenter', 'places', function(e) {
+            // Change the cursor style as a UI indicator.
+            map.getCanvas().style.cursor = 'pointer';
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            const description = e.features[0].properties.description;
+  
+            // Ensure that if the map is zoomed out such that multiple
+            // copies of the feature are visible, the popup appears
+            // over the copy being pointed to.
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+              coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            }
+  
+            // Populate the popup and set its coordinates
+            // based on the feature found.
+            popup.setLngLat(coordinates)
+              .setHTML(description)
+              .addTo(map);
+          });
+
+          map.on('mouseleave', 'places', function() {
+            map.getCanvas().style.cursor = '';
+            popup.remove();
+          });
+        });
+      // }else{
+      //   map.setCenter([longitude, latitude]);
+      //   let newZoom = map.getZoom();
+      //   map.setZoom(newZoom);
+      // }
+
       // Drop a default marker on the center of the map
       const marker = new mapboxgl.Marker({ color: this.markerColors['default'] })
         .setLngLat([longitude, latitude])
@@ -129,17 +223,16 @@ export default class Search extends Component {
       // Plot markings on map where happenings are
       if ( this.state.nearbyHappenings ) {
         this.state.nearbyHappenings.forEach(marker => 
-          // const colorToUse = markerColors[marker.happening_type];
           new mapboxgl.Marker({ color: this.markerColors[marker.happening_type] })
             .setLngLat([marker.longitude, marker.latitude])
             .addTo(map)
-        );
-      }
+      )};
+
+      // If the user drags the map we display a "Search This Area" button
       map.on('dragend', () => {
         document.getElementById('searchArea').style.display = "block"
-        //   this.setState({ newSearch: true})
-      })
-    }
+      });
+    } // end createMap
 
     return (
       <div>
@@ -161,6 +254,8 @@ export default class Search extends Component {
     if( numFound > 0 ){
       let happeningRows = [];
 
+      happeningsToDisplay.push(<h2 className='happenings-h2' key='h2-1'>We found <span className='happenings-h2-stats'> { numFound } </span> { numFound === 1 ? 'happening' : 'happenings' } in <span className='happenings-h2-stats'> { this.state.location } </span> that matched your search criteria</h2>);
+
       for( let i = 0; i < numFound; i++){
         const happening = this.state.nearbyHappenings[i];
         const type = happening.happening_type;
@@ -178,6 +273,7 @@ export default class Search extends Component {
     }
     return happeningsToDisplay;
   }
+
   setDetails(latitude, longitude, type, location, locationType) {
     if (latitude !== undefined && longitude !== undefined) {
       location = location.split(",")
@@ -190,8 +286,9 @@ export default class Search extends Component {
     }
     this.fetchPredict(longitude, latitude, type);
   }
+
   searchArea() {
-    this.setState({longitude: map.getCenter().lng, latitude: map.getCenter().lat})
+    this.setState({ longitude: map.getCenter().lng, latitude: map.getCenter().lat, zoom: map.getZoom() })
     this.fetchPredict(map.getCenter().lng, map.getCenter().lat, this.state.type)
     document.getElementById('searchArea').style.display = "none"
   }

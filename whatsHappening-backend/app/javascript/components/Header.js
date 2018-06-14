@@ -25,7 +25,6 @@ const mapboxUrlPrefix = 'https://api.mapbox.com/geocoding/v5/mapbox.places';
 export default class Header extends React.Component {
   constructor(props) {
     super(props);
-    console.log("HISTORY", this.props.history)
     this.toggle = this.toggle.bind(this);
 
     this.state = {
@@ -117,8 +116,8 @@ export default class Header extends React.Component {
         </Navbar>
         {this.state.location.length >= 3 && this.state.newSearch ?
           <span className="resultDropdownDiv" style={ {left: this.inputRef.offsetLeft + 'px'} }>
-            {this.state.close5.map(place =>
-              <div onClick={() => {
+            {this.state.close5.map((place,index) =>
+              <div key={ index } onClick={() => {
                 this.fillSearch(place)
               }} className="resultDropdown">{place.place_name}</div>
             )}
