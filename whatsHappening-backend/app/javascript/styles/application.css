@@ -214,10 +214,66 @@ html, body {
   border-bottom: 1px solid black;
   padding-left: 5px;
 }
+
 .locationHeader {
   width: 400px;
 }
+
 .resultDropdown:hover {
   cursor: pointer;
   background: lightgrey;
+}
+
+.badge {
+  color: #ffffff;
+  text-transform: capitalize;
+}
+
+.badge-default {
+  background-color: #d0d0d0;
+}
+
+.badge-school-holidays {
+  background-color: #ccccff;
+}
+
+.badge-public-holidays {
+  background-color: #cbaa5c;
+}
+
+.badge-observances {
+  background-color: #ccffcc;
+}
+
+.badge-politics {
+  background-color: #ff33ff;
+}
+
+.badge-conferences {
+  background-color: #ff8000;
+}
+
+.badge-expos {
+  background-color: #ffcccc;
+  color: #696969;
+}
+
+.badge-concerts {
+  background-color: #66cc00;
+}
+
+.badge-concerts {
+  background-color: '#0080ff';
+}
+
+.badge-performing-arts {
+  background-color: #ff3333;
+}
+
+.badge-sports {
+  background-color: #ffff00;
+}
+
+.badge-community {
+  background-color: #00cc00;
 }

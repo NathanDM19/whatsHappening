@@ -100,9 +100,9 @@ export default class Header extends React.Component {
         <Navbar color="light" light expand="lg">
           <NavbarBrand href="/#/">What's Happening?</NavbarBrand>
             <input type="text" className="typeHeader" onChange={this.typeChange}placeholder="All Happenings"></input>
-          <p className="inline in">In</p>
+          <p className="inline in">in</p>
           <input type="text" className="locationHeader" onChange={this.locationChange} placeholder="Location" value={this.state.location} ref={el => this.inputRef = el} ></input>
-          <Button className="headerSearch btn-success" onClick={this._handleSubmit}>Search</Button>
+          <Button className="headerSearch btn-success btn-sm" onClick={this._handleSubmit}>Search</Button>
           <Nav className="ml-auto" navbar>
             {this.state.user ?
               <NavItem>
