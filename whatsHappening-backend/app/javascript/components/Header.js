@@ -20,6 +20,7 @@ export default class Header extends React.Component {
     super(props);
 
     this.toggle = this.toggle.bind(this);
+    
     this.state = {
       isOpen: false,
       user: {}
@@ -41,19 +42,17 @@ export default class Header extends React.Component {
   }
   render() {
     return (
-      <div className='site-header'>
-        <Navbar color="light" light expand="lg">
-          <NavbarBrand href="/#/">What's Happening?</NavbarBrand>
-          <Nav className="ml-auto" navbar>
-            {this.state.user ? 
-              <NavItem>
-                <NavLink className="inline floatRight" href="/logout">Logout</NavLink>
-                <NavLink className="inline floatRight" href="/#/profile">Profile</NavLink>
-              </NavItem>
-              : <NavLink href="/login">Login</NavLink>}
-          </Nav>
-        </Navbar>
-      </div>
+      <Navbar color="light" light expand="lg">
+        <NavbarBrand href="/#/">What's Happening?</NavbarBrand>
+        <Nav className="ml-auto" navbar>
+          {this.state.user ? 
+            <NavItem>
+              <NavLink className="inline floatRight" href="/logout">Logout</NavLink>
+              <NavLink className="inline floatRight" href="/#/profile">Profile</NavLink>
+            </NavItem>
+            : <NavLink href="/login">Login</NavLink>}
+        </Nav>
+      </Navbar>
     );
   }
 }

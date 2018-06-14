@@ -16,6 +16,7 @@ export default class Home extends Component {
         <Header />
         <SiteContent history={ this.props.history }/>
         <Footer />
+       <h2>TEST sdfsdfsdfdsf</h2>
       </div>
     )
   }

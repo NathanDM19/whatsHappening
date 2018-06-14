@@ -1,20 +1,91 @@
-@import url('https://fonts.googleapis.com/css?family=Arvo:400,700|Lato|Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Arvo:400,700|Lato:300,900|Open+Sans');
 
-body {
+html, body {
   margin: 0px;
   padding: 0px;
-  min-height: 100vh;
+  height: 100%;
+  width: 100%;
   font-family: 'Lato', sans-serif;
 }
 
-/* 
-  Site / Class Hierarchy: 
-    { site-wrapper }
-      { site-header <header> tag }
-      { homepage-main <div> tag }
-      { site-footer <footer> tag }
-    { site-wrapper - END }
-*/
+.header {
+  overflow: hidden;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  height: 56px;
+  box-shadow: 0 1px 2px rgba(51, 51, 51, 0.1);
+  background-color: #fff;
+}
+
+.footer {
+  position: relative;
+  height: 48px;
+  background: #ecf0f5;
+  color: darkgray;
+  padding-left: 20px;
+  box-shadow: 0 -1px rgba(51, 51, 51, 0.1);
+  line-height: 48px;
+  overflow: hidden;
+}
+
+.content {
+  position: absolute;
+  top:56px;
+  bottom:0px;
+  left:0px;
+  right:0px;
+  height: calc(100vh - 108px);
+  overflow: auto;
+}
+
+.happenings-list {
+  height:100%;
+  box-sizing: border-box;
+  vertical-align: middle;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.happenings-h2 {
+  padding: 10px;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.happenings-h2-stats {
+  font-weight: 900;
+}
+
+.panel {
+  box-sizing: border-box;
+  /* margin-bottom: 2px; */
+  margin: 0px;
+  padding: 0px;
+  font-weight: 700;
+  color: darkgreen;
+  /* border: 1px solid black; */
+}
+
+.panel-desc {
+  list-style-type: none;
+  margin-bottom: 5px;
+  height: 100px;
+  width: 95%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  hyphens: auto;
+}
+
+.fullHeight {
+  height: 100%;
+}
+
+.container-fluid {
+  padding-left: 0px;
+  padding-right: 0px;
+}
 
 .site-wrapper {
   display: grid;

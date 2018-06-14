@@ -28,22 +28,22 @@ export default class Map extends React.Component {
       zoom
     });
 
-    map.on('move', (map) => {
-      const { longitude, latitude } = map.getCenter();
-      
-      this.setState({
-        longitude: longitude.toFixed(4),
-        latitude: latitude.toFixed(4),
-        zoom: map.getZoom().toFixed(2)
-      });
-    });
+    // map.on('move', (map) => {
+    //   const { longitude, latitude } = map.getCenter();
+
+    //   this.setState({
+    //     longitude: longitude.toFixed(4),
+    //     latitude: latitude.toFixed(4),
+    //     zoom: map.getZoom().toFixed(2)
+    //   });
+    // });
   }
 
   render() {
     const { longitude, latitude, zoom } = this.state;
 
     return (
-      <div>
+      <div className='fullHeight'>
         <div className="inline-block absolute top left mt12 ml12 bg-darken75 color-white z1 py6 px12 round-full txt-s txt-bold">
         </div>
         <div ref={el => this.mapContainer = el } className="absolute top right left bottom" />

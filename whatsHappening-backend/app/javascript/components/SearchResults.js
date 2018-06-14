@@ -34,7 +34,7 @@ export default class SearchResults extends React.Component {
 
   render() {
     return (
-      <Map nearbyHappenings={ this.state.nearbyHappenings } latitude={ this.props.latitude } longitude={ this.props.longitude } proximity={ this.props.proximity } />
+      <Map nearbyHappenings={ this.state.nearbyHappenings } latitude={ this.props.latitude } longitude={ this.props.longitude } proximity={ this.props.proximity } className='fullHeight' />
     );
   }
 }
