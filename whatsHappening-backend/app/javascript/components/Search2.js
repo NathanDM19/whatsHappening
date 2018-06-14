@@ -96,7 +96,7 @@ export default class Search extends Component {
     }
 
     return (
-      <div>
+      <div className='bbb'>
         <div className="inline-block absolute top left mt12 ml12 bg-darken75 color-white z1 py6 px12 round-full txt-s txt-bold">
         </div>
         <div ref={el => this.mapContainer = el } className="absolute top right left bottom" />
@@ -109,27 +109,27 @@ export default class Search extends Component {
     const numFound = this.state.nearbyHappenings.length;
 
     if( numFound > 0 ){
-      let happeningCols = [];
+      // let happeningCols = [];
       let happeningRows = [];
       
       happeningsToDisplay.push(<h2 className='happenings-h2' key='h2-1'>We found <span className='happenings-h2-stats'> { numFound } </span> { numFound === 1 ? 'happening' : 'happenings' } in <span className='happenings-h2-stats'> { this.state.location } </span> that matched your search criteria</h2>);
 
       for( let i = 0; i < numFound; i++){
-        if( i % 1 === 0 && i > 0 ){
-          happeningRows.push(<Row key={ 'row-' + i }>{ happeningCols }</Row>)
-          happeningCols = [];
-        }
+        // if( i % 1 === 0 && i > 0 ){
+        //   happeningRows.push(<Row key={ 'row-' + i }>{ happeningCols }</Row>)
+        //   happeningCols = [];
+        // }
         const happening = this.state.nearbyHappenings[i];
-        happeningCols.push(<Col lg='12' key={ 'col-' + i } className='panel'><p key={ i }>{ happening.name }</p></Col>);
-        // happeningCols.push(<Col lg='12' key={ 'colDesc-' + i } className='panel-desc'><p key={ i }>{ happening.description }</p></Col>);
-
+        happeningRows.push(<li className='panel' key={ i }>{ happening.name }</li>);
+        // happeningCols.push(<Col lg='12' key={ 'col-' + i } className='panel'><span key={ i }>{ happening.name }</span></Col>);
+        happeningRows.push(<li key={ 'desc-' + i } className='panel-desc'>{ happening.description }</li>);
       }
 
-      if( happeningCols.length > 0 ){
-        happeningRows.push(<Row key={ 'row-' + numFound }>{ happeningCols }</Row>)
-      }
+      // if( happeningCols.length > 0 ){
+        // happeningRows.push(<Row key={ 'row-' + numFound }>{ happeningCols }</Row>)
+      // }
 
-      happeningsToDisplay.push(<ul key='ul-1'>{ happeningRows }</ul>);
+      happeningsToDisplay.push(<div className='happenings-container'><ul key='ul-1'>{ happeningRows }</ul></div>);
     } else {
       happeningsToDisplay.push(<p key='p-1'>No happenings found ... please search again</p>);
     }

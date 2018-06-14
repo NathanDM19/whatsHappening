@@ -40,6 +40,12 @@ html, body {
   overflow: auto;
 }
 
+.happenings-container {
+  height: 75vh !important;
+  /* height: calc(100vh - 108px); */
+  overflow-y: scroll;
+}
+
 .happenings-list {
   height:100%;
   box-sizing: border-box;
@@ -60,9 +66,9 @@ html, body {
 
 .panel {
   box-sizing: border-box;
-  /* margin-bottom: 2px; */
+  margin-bottom: 2px;
   margin: 0px;
-  padding: 0px;
+  padding-left: 10px;
   font-weight: 700;
   color: darkgreen;
   /* border: 1px solid black; */
@@ -71,8 +77,10 @@ html, body {
 .panel-desc {
   list-style-type: none;
   margin-bottom: 5px;
-  height: 100px;
-  width: 95%;
+  /* height: 100px; */
+  padding-left: 10px;
+  padding-bottom: 10px;
+  /* width: 90%; */
   overflow: hidden;
   text-overflow: ellipsis;
   hyphens: auto;
