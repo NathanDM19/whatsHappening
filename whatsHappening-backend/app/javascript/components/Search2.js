@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Header from './Header';
 import SearchResults from './SearchResults';
-import { Container, Row, Col, Button } from 'reactstrap';
+import { Container, Row, Col, Badge, Button } from 'reactstrap';
 import mapboxgl from 'mapbox-gl';
 import axios from 'axios';
 
@@ -34,24 +34,25 @@ export default class Search extends Component {
     this.setDetails = this.setDetails.bind(this)
     this.fetchPredict = this.fetchPredict.bind(this)
     this.searchArea = this.searchArea.bind(this)
-    
-  }
 
-  componentDidMount() {
-    const { longitude, latitude, proximity } = this.state;
-
-    // Run default proximity query for events within 5km of default
-    const serverUrlPrefix = "http://localhost:3000/search"
-
-    const performSearch = () => {
-      axios.get(`${serverUrlPrefix}/${latitude}/${longitude}/${proximity}`)
-        .then(response => {
-          this.setState({ nearbyHappenings: response.data })
-        })
-    }
-
-    // performSearch();
+    // Run fetch predict to seed the happenings for the default location
     this.fetchPredict()
+    
+    // Plot a marking for the center of the map
+    this.markerColors = {
+      default: '#d0d0d0',
+      'school-holidays': '#ccccff',
+      'public-holidays': '#cbaa5c',
+      observances: '#ccffcc',
+      politics: '#ff33ff',
+      conferences: '#ff8000',
+      expos: '#ffcccc',
+      concerts: '#66cc00',
+      festivals: '#0080ff',
+      'performing-arts': '#ff3333',
+      sports: '#ffff00',
+      community: '#00cc00' 
+    }
   }
 
   fetchPredict(longitude, latitude, type) {
@@ -61,9 +62,6 @@ export default class Search extends Component {
       type = this.state.type;
     }
     let proximity = this.state.proximity;
-    // console.log('in fetchPredict lat > ', latitude);
-    // console.log('in fetchPredict lng > ', longitude);
-    // console.log('in fetchPredict type > ', type);
     const predictUrlPrefix = "https://api.predicthq.com/v1"
 
     axios.get(`${predictUrlPrefix}/events/?country=AU&within=${proximity}km@${latitude},${longitude}&q=${type}&offset=0`, { headers: { Authorization: "Bearer wGTgFr7Ad0XF4eGGhnHdFPoksITNZJ" } })
@@ -79,6 +77,7 @@ export default class Search extends Component {
           tempObject.description = result.description
           tempObject.name = result.title
           tempArray.push(tempObject);
+          console.log('Category : ', result.category);
         }
         // console.log(tempArray)
         this.setState({ nearbyHappenings: tempArray });
@@ -116,16 +115,17 @@ export default class Search extends Component {
 
       // Add the map control
       map.addControl(new mapboxgl.FullscreenControl());
-
-      // Plot a marking for the center of the map
-      const marker = new mapboxgl.Marker()
+      
+      // Drop a default marker on the center of the map
+      const marker = new mapboxgl.Marker({ color: this.markerColors['default'] })
         .setLngLat([longitude, latitude])
         .addTo(map);
 
       // Plot markings on map where happenings are
-      if (this.state.nearbyHappenings) {
-        this.state.nearbyHappenings.forEach(marker =>
-          new mapboxgl.Marker()
+      if ( this.state.nearbyHappenings ) {
+        this.state.nearbyHappenings.forEach(marker => 
+          // const colorToUse = markerColors[marker.happening_type];
+          new mapboxgl.Marker({ color: this.markerColors[marker.happening_type] })
             .setLngLat([marker.longitude, marker.latitude])
             .addTo(map)
         );
@@ -149,28 +149,19 @@ export default class Search extends Component {
     let happeningsToDisplay = [];
     const numFound = this.state.nearbyHappenings.length;
 
-    if (numFound > 0) {
-      let happeningCols = [];
+    if( numFound > 0 ){
       let happeningRows = [];
 
-      happeningsToDisplay.push(<h2 className='happenings-h2' key='h2-1'>We found <span className='happenings-h2-stats'> {numFound} </span> {numFound === 1 ? 'happening' : 'happenings'} in <span className='happenings-h2-stats'> {this.state.location} </span> that matched your search criteria</h2>);
-
-      for (let i = 0; i < numFound; i++) {
-        if (i % 1 === 0 && i > 0) {
-          happeningRows.push(<Row key={'row-' + i}>{happeningCols}</Row>)
-          happeningCols = [];
-        }
+      for( let i = 0; i < numFound; i++){
         const happening = this.state.nearbyHappenings[i];
-        happeningCols.push(<Col lg='12' key={'col-' + i} className='panel'><p key={i}>{happening.name}</p></Col>);
-        // happeningCols.push(<Col lg='12' key={ 'colDesc-' + i } className='panel-desc'><p key={ i }>{ happening.description }</p></Col>);
+        const type = happening.happening_type;
+        const displayType = type.replace('-', ' ');
 
+        happeningRows.push(<li className='panel' key={ i }>{ happening.name } <Badge className={ 'badge-' + type }>{ displayType }</Badge></li>);
+        happeningRows.push(<li key={ 'desc-' + i } className='panel-desc'>{ happening.description }</li>);
       }
 
-      if (happeningCols.length > 0) {
-        happeningRows.push(<Row key={'row-' + numFound}>{happeningCols}</Row>)
-      }
-
-      happeningsToDisplay.push(<ul key='ul-1'>{happeningRows}</ul>);
+      happeningsToDisplay.push(<div className='happenings-container' key='container-1'><ul key='ul-1'>{ happeningRows }</ul></div>);
     } else {
       happeningsToDisplay.push(<p key='p-1'>No happenings found ... please search again</p>);
     }
@@ -187,8 +178,6 @@ export default class Search extends Component {
       this.setState({ latitude, longitude, type, location });
     }
     this.fetchPredict(longitude, latitude, type);
-    // this.createMap();
-    // this.displayHappenings();
   }
   searchArea() {
     this.setState({longitude: map.getCenter().lng, latitude: map.getCenter().lat})
