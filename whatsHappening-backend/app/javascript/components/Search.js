@@ -11,7 +11,7 @@ export default class Search extends Component {
   render() {
     return (
       <div className='site-wrapper'>
-        <Header />
+        <Header history={this.props.history} />
         <SearchResults latitude={ this.props.match.params.latitude } longitude={ this.props.match.params.longitude } proximity={ this.props.match.params.proximity } />
         <Footer />
       </div>

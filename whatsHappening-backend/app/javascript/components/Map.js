@@ -18,7 +18,7 @@ export default class Map extends React.Component {
     };
   }
 
-  componentDidMount() {    
+  componentDidMount() {
     const { longitude, latitude, zoom } = this.state;
 
     const map = new mapboxgl.Map({

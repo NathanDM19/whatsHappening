@@ -19,7 +19,7 @@
    border-bottom: 1px solid black;
    padding: 5px 0;
 }
-h1 {
+h1, h2 {
   text-align: center;
 }
 .button, .button:hover {
@@ -37,7 +37,7 @@ h1 {
 .submitButton {
   float: left;
 }
-.topShowDiv, .middleShowDiv {
+.topShowDiv, .middleShowDiv, .profileBody {
   width: 78%;
   margin: 0 auto;
 }
@@ -92,4 +92,42 @@ h1 {
 #test1 {
   width: 200px;
   height: 200px;
+}
+.profileBody {
+  background: lightgrey;
+}
+.placeholderPhoto {
+  width: 250px;
+  height: 250px;
+  background: black;
+  margin-top: 100px;
+  display: inline-block;
+}
+.up {
+  position: relative;
+  top: -230px;
+  margin-left: 15px;
+}
+#userNew {
+  background-image: url("../images/front2.png")
+//   background-color: black;
+}
+.in {
+  color: black;
+  font-size: 20px;
+  margin-left: 5px;
+  position: relative;
+  top: 8px;
+}
+.typeHeader {
+  margin-left: 50px;
+  margin-right: 14px;
+}
+.locationHeader {
+  margin-left: 16px;
+}
+.headerSearch {
+  position: relative;
+  top: -5px;
+  left: 20px;
 }

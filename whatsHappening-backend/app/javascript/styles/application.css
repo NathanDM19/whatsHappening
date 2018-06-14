@@ -202,15 +202,20 @@ html, body {
   margin-top: 8px;
 }
 .resultDropdownDiv {
-  position: relative;
-  top: -42px;
+  position: absolute;
+  z-index: 100;
+  top: 46px;
 }
 .resultDropdown {
   background-color: white;
   height: 30px;
+  width: 400px;
   font-size: 14px;
   border-bottom: 1px solid black;
   padding-left: 5px;
+}
+.locationHeader {
+  width: 400px;
 }
 .resultDropdown:hover {
   cursor: pointer;

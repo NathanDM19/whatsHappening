@@ -22,13 +22,16 @@ export default class Search extends Component {
       location: 'Sydney, NSW',
       latitude: -33.8688197,
       longitude: 151.20929550000005,
-      proximity: 15,
+      proximity: 5,
       zoom: 13.5,
-      nearbyHappenings: {}
+      nearbyHappenings: {},
+      type: ""
     }
 
     this.createMap = this.createMap.bind( this );
-    this.displayHappenings = this.displayHappenings.bind( this );
+    this.displayHappenings = this.displayHappenings.bind(this);
+    this.setDetails = this.setDetails.bind(this)
+    this.fetchPredict = this.fetchPredict.bind(this)
   }
 
   componentDidMount() {
@@ -36,7 +39,6 @@ export default class Search extends Component {
 
     // Run default proximity query for events within 5km of default
     const serverUrlPrefix = "http://localhost:3000/search"
-    const predictUrlPrefix = "https://api.predicthq.com/v1"
 
     const performSearch = () => {
       axios.get(`${serverUrlPrefix}/${ latitude }/${ longitude }/${ proximity }`)
@@ -45,26 +47,39 @@ export default class Search extends Component {
       })
     }
 
-    const fetchPredict = () => {
-      axios.get(`${predictUrlPrefix}/events/?country=AU&within=${proximity}km@${latitude},${longitude}`, { headers: { Authorization: "Bearer wGTgFr7Ad0XF4eGGhnHdFPoksITNZJ" } } )
-        .then(response => {
-          let tempArray = this.state.nearbyHappenings
-          for (let i = 0; i < response.data.results.length; i++) {
-            let tempObject = {}
-            let result = response.data.results[i]
-            tempObject.latitude = result.location[1]
-            tempObject.longitude = result.location[0]
-            tempObject.happening_type = result.category
-            tempObject.description = result.description
-            tempObject.name = result.title
-            tempArray.push(tempObject);
-          }
-          this.setState({nearbyHappenings: tempArray});
-          })
-      }
-    fetchPredict()
-    performSearch();
+    // performSearch();
+    this.fetchPredict()
   }
+
+  fetchPredict(longitude, latitude, type) {
+    if (!longitude) {
+      longitude = this.state.longitude;
+      latitude = this.state.latitude;
+      type = this.state.type;
+    }
+    let proximity = this.state.proximity;
+    console.log('in fetchPredict lat > ', latitude);
+    console.log('in fetchPredict lng > ', longitude);
+    console.log('in fetchPredict type > ', type);
+    const predictUrlPrefix = "https://api.predicthq.com/v1"
+
+    axios.get(`${predictUrlPrefix}/events/?country=AU&within=${proximity}km@${latitude},${longitude}&q=${type}`, { headers: { Authorization: "Bearer wGTgFr7Ad0XF4eGGhnHdFPoksITNZJ" } } )
+      .then(response => {
+        let tempArray = [];
+        for (let i = 0; i < response.data.results.length; i++) {
+          let tempObject = {}
+          let result = response.data.results[i]
+          tempObject.latitude = result.location[1]
+          tempObject.longitude = result.location[0]
+          tempObject.happening_type = result.category
+          tempObject.description = result.description
+          tempObject.name = result.title
+          tempArray.push(tempObject);
+        }
+        console.log(tempArray)
+        this.setState({nearbyHappenings: tempArray});
+        })
+    }
 
   createMap () {    
     if ( this.mapContainer ){
@@ -135,12 +150,20 @@ export default class Search extends Component {
     }
     return happeningsToDisplay;
   }
+  setDetails(latitude, longitude, type) {
+    if (latitude !== undefined && longitude !== undefined) {
+      this.setState({ latitude, longitude, type });
+    }
+    this.fetchPredict(longitude, latitude, type);
+    // this.createMap();
+    // this.displayHappenings();
+  }
 
   render() {
     return (
       <Container fluid>
         <Row noGutters>
-          <Col><Header/></Col>
+          <Col><Header history={this.props.history} newSearch={this.setDetails}/></Col>
         </Row>
         <Row noGutters>
           <Col lg="6">
