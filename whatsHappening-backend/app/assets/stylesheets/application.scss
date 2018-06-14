@@ -53,6 +53,10 @@ h1, h2 {
   top: 15px;
   margin-bottom: 30px;
 }
+.showImage {
+  width: 750px;
+  height: 400px;
+}
 .rectangles {
   width: 31.55%;
   height: 50px;
@@ -71,7 +75,7 @@ h1, h2 {
 .bottomShow {
   background: white;
   padding: 20px 30px;
-  height: 350px;
+  height: 550px;
 }
 .leftMiddleShowDiv {
   width: 750px;
@@ -130,4 +134,9 @@ h1, h2 {
   position: relative;
   top: -5px;
   left: 20px;
+}
+.searchDate {
+  color: grey;
+  font-size: 12px;
+  font-style: italic;
 }

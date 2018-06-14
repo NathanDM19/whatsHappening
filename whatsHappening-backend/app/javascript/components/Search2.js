@@ -4,6 +4,7 @@ import SearchResults from './SearchResults';
 import { Container, Row, Col, Badge, Button } from 'reactstrap';
 import mapboxgl from 'mapbox-gl';
 import axios from 'axios';
+import dateFormat from 'dateformat'
 
 function Footer() {
   return (
@@ -37,7 +38,7 @@ export default class Search extends Component {
 
     // Run fetch predict to seed the happenings for the default location
     this.fetchPredict()
-    
+
     // Plot a marking for the center of the map
     this.markerColors = {
       default: '#d0d0d0',
@@ -64,7 +65,7 @@ export default class Search extends Component {
     let proximity = this.state.proximity;
     const predictUrlPrefix = "https://api.predicthq.com/v1"
 
-    axios.get(`${predictUrlPrefix}/events/?country=AU&within=${proximity}km@${latitude},${longitude}&q=${type}&offset=0`, { headers: { Authorization: "Bearer wGTgFr7Ad0XF4eGGhnHdFPoksITNZJ" } })
+    axios.get(`${predictUrlPrefix}/events/?within=${proximity}km@${latitude},${longitude}&q=${type}`, { headers: { Authorization: "Bearer wGTgFr7Ad0XF4eGGhnHdFPoksITNZJ" } })
       .then(response => {
         // console.log(response.data)
         let tempArray = [];
@@ -76,13 +77,15 @@ export default class Search extends Component {
           tempObject.happening_type = result.category
           tempObject.description = result.description
           tempObject.name = result.title
+          tempObject.when = result.start
+          tempObject.time = result.end
+          tempObject.id = result.id
           tempArray.push(tempObject);
-          console.log('Category : ', result.category);
         }
         // console.log(tempArray)
         this.setState({ nearbyHappenings: tempArray });
       })
-    axios.get(`${predictUrlPrefix}/events/?country=AU&within=${proximity}km@${latitude},${longitude}&q=${type}&offset=10`, { headers: { Authorization: "Bearer wGTgFr7Ad0XF4eGGhnHdFPoksITNZJ" } })
+    axios.get(`${predictUrlPrefix}/events/?within=${proximity}km@${latitude},${longitude}&q=${type}&offset=10`, { headers: { Authorization: "Bearer wGTgFr7Ad0XF4eGGhnHdFPoksITNZJ" } })
       .then(response => {
         // console.log(response.data)
         let tempArray = this.state.nearbyHappenings;
@@ -94,6 +97,9 @@ export default class Search extends Component {
           tempObject.happening_type = result.category
           tempObject.description = result.description
           tempObject.name = result.title
+          tempObject.when = result.start
+          tempObject.time = result.end
+          tempObject.id = result.id
           tempArray.push(tempObject);
         }
         console.log(tempArray)
@@ -111,7 +117,6 @@ export default class Search extends Component {
         center: [longitude, latitude],
         zoom
       });
-      console.log(map)
 
       // Add the map control
       map.addControl(new mapboxgl.FullscreenControl());
@@ -145,6 +150,10 @@ export default class Search extends Component {
     );
   }
 
+  showPage(happening) {
+    this.props.history.push(`happenings/${happening.id}`)
+  }
+
   displayHappenings() {
     let happeningsToDisplay = [];
     const numFound = this.state.nearbyHappenings.length;
@@ -156,8 +165,10 @@ export default class Search extends Component {
         const happening = this.state.nearbyHappenings[i];
         const type = happening.happening_type;
         const displayType = type.replace('-', ' ');
-
-        happeningRows.push(<li className='panel' key={ i }>{ happening.name } <Badge className={ 'badge-' + type }>{ displayType }</Badge></li>);
+        console.log(happening.when)
+        let date = dateFormat(happening.when, " HH:MM dddd, mmmm dS - ") + dateFormat(happening.time, "HH:MM dddd, mmmm dS")
+        console.log(dateFormat(happening.when, "HH:MM dddd, mmmm dS -"))
+        happeningRows.push(<li onClick={() => this.showPage(happening)} className='panel titles' key={i}>{happening.name} <Badge className={'badge-' + type}>{displayType}</Badge><p className="inline searchDate">{date}</p></li>);
         happeningRows.push(<li key={ 'desc-' + i } className='panel-desc'>{ happening.description }</li>);
       }
 
@@ -186,7 +197,6 @@ export default class Search extends Component {
   }
 
   render() {
-    console.log(map);
     return (
       <Container fluid>
         <Row noGutters>

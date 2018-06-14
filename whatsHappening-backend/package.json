@@ -5,6 +5,8 @@
     "@rails/webpacker": "3.5",
     "axios": "^0.18.0",
     "babel-preset-react": "^6.24.1",
+    "dateformat": "^3.0.3",
+    "dates-between": "^1.1.0",
     "mapbox-gl": "^0.45.0",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",

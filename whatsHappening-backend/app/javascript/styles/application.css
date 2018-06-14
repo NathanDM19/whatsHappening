@@ -285,3 +285,12 @@ html, body {
 .badge-community {
   background-color: #00cc00;
 }
+.titles:hover {
+  cursor: pointer;
+}
+.showName {
+  margin: 20px 0;
+}
+.showMap {
+  overflow: none;
+}

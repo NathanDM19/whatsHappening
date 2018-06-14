@@ -19,7 +19,7 @@ const Routes = (
       <Route exact path="/test" component={ Test } />
       <Route exact path="/search/:latitude/:longitude/:proximity" component={Search} />
       <Route exact path="/search2" component={Search2} />
-      <Route exact path="/profile" component={Profile} />    
+        <Route exact path="/profile" component={Profile} />      
     </Switch>
     </Router>
   </div>  

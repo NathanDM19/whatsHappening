@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import dateFormat from 'dateformat'
 
 class DatesShow extends Component {
   constructor(props) {
@@ -7,8 +8,8 @@ class DatesShow extends Component {
   render() {
     return (
       <div className="bottomShow">
-        <p>When: {this.props.happening.when}</p>
-        <p>Time: {this.props.happening.time}</p>
+        <p>From: {dateFormat(this.props.happening.when, " HH:MM dddd, mmmm dS")}</p>
+        <p>To: {dateFormat(this.props.happening.time, "HH:MM dddd, mmmm dS")}</p>
       </div>
     )
   }
