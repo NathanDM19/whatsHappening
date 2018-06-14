@@ -27,18 +27,17 @@ export default class Header extends React.Component {
     super(props);
     console.log("HISTORY", this.props.history)
     this.toggle = this.toggle.bind(this);
+
     this.state = {
       isOpen: false,
       user: {},
       type: "",
       location: "",
       close5: [],
-      newSearch: true,
-      dropdownOpen: false,
+      newSearch: true
     };
     this.typeChange = this.typeChange.bind(this);
     this.locationChange = this.locationChange.bind(this);
-    this.toggleDropDown = this.toggleDropDown.bind(this);
     this._handleSubmit = this._handleSubmit.bind(this)
     window.headerComponent = this;
   }
@@ -78,43 +77,34 @@ export default class Header extends React.Component {
   }
   _handleSubmit() {
     event.preventDefault();
-    console.log("RAN")
-    // Check if the close5 array is populated. If it is use it
     let latitude;
     let longitude;
     const proximity = 3;
+    let type = this.state.type
 
     if (this.state.close5.length > 0) {
-      const foundLocation = this.state.close5[0];
-
-      longitude = foundLocation.center[0];
-      latitude = foundLocation.center[1];
+      for (let i = 0; i < this.state.close5.length; i++) {
+        if (this.state.close5[i].place_name === this.state.location) {
+          const foundLocation = this.state.close5[i];
+          longitude = foundLocation.center[0];
+          latitude = foundLocation.center[1];
+        }
+      }
     }
-    this.props.history.push(`/search/${latitude}/${longitude}/${proximity}`);
+    this.props.newSearch(latitude, longitude, type)
   }
-
-
-  toggleDropDown() {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen
-    });
-  }
-
-
 
   render() {
     return (
       <div className='site-header'>
         <Navbar color="light" light expand="lg">
           <NavbarBrand href="/#/">What's Happening?</NavbarBrand>
-          <NavItem className="inputHeader inputHeaderLeft">
-            <input type="text" onChange={this.typeChange}placeholder="All Happenings"></input>
-          </NavItem>
+            <input type="text" className="typeHeader" onChange={this.typeChange}placeholder="All Happenings"></input>
           <p className="inline in">In</p>
           <input type="text" className="locationHeader" onChange={this.locationChange} placeholder="Location" value={this.state.location} ref={el => this.inputRef = el} ></input>
           <Button className="headerSearch btn-success" onClick={this._handleSubmit}>Search</Button>
           <Nav className="ml-auto" navbar>
-            {this.state.user ? 
+            {this.state.user ?
               <NavItem>
                 <NavLink className="inline floatRight" href="/logout">Logout</NavLink>
                 <NavLink className="inline floatRight" href="/#/profile">Profile</NavLink>
@@ -130,9 +120,8 @@ export default class Header extends React.Component {
               }} className="resultDropdown">{place.place_name}</div>
             )}
           </span>
-          : null} 
+          : null}
       </div>
     );
   }
 }
-
