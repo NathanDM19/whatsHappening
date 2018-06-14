@@ -41,7 +41,7 @@ html, body {
 }
 
 .happenings-container {
-  height: 75vh !important;
+  height: 82vh !important;
   /* height: calc(100vh - 108px); */
   overflow-y: scroll;
 }
@@ -239,10 +239,12 @@ html, body {
 
 .badge-default {
   background-color: #d0d0d0;
+  color: #696969;
 }
 
 .badge-school-holidays {
   background-color: #ccccff;
+  color: #696969;
 }
 
 .badge-public-holidays {
@@ -251,6 +253,7 @@ html, body {
 
 .badge-observances {
   background-color: #ccffcc;
+  color: #696969;
 }
 
 .badge-politics {
