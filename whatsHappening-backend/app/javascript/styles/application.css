@@ -41,7 +41,7 @@ html, body {
 }
 
 .happenings-container {
-  height: 82vh !important;
+  height: 75vh !important;
   /* height: calc(100vh - 108px); */
   overflow-y: scroll;
 }
@@ -283,8 +283,14 @@ html, body {
 
 .badge-sports {
   background-color: #ffff00;
+  color: #000000;
 }
 
 .badge-community {
   background-color: #00cc00;
+}
+
+.mapboxgl-popup {
+  max-width: 400px;
+  font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 }
