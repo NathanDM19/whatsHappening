@@ -111,7 +111,7 @@ export default class Search extends Component {
     const predictUrlPrefix = "https://api.predicthq.com/v1"
 
     for ( let request = 0; request < maxRequests; request++ ){
-      axios.get(`${predictUrlPrefix}/events/?within=${proximity}km@${latitude},${longitude}&q=${type}&offset=${ offset }`, { headers: { Authorization: "Bearer wGTgFr7Ad0XF4eGGhnHdFPoksITNZJ" } })
+      axios.get(`${predictUrlPrefix}/events/?country=AU&within=${proximity}km@${latitude},${longitude}&q=${type}&offset=${ offset }`, { headers: { Authorization: "Bearer wGTgFr7Ad0XF4eGGhnHdFPoksITNZJ" } })
         .then(response => {
           for (let i = 0; i < response.data.results.length; i++) {
             let result = response.data.results[i]
@@ -130,6 +130,9 @@ export default class Search extends Component {
             tempObject.happening_type = result.category
             tempObject.description = result.description
             tempObject.name = result.title
+            tempObject.when = result.start
+            tempObject.time = result.end
+            tempObject.id = result.id
             tempArray.push(tempObject);
           }
           this.setState({ nearbyHappenings: tempArray });
