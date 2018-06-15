@@ -14,6 +14,8 @@ function Footer() {
   );
 }
 
+// This function will accept happenings object as input and
+// generate geoJSON which it returns
 function createGeoJSON( inputHappenings ){
   let outputGeoJSON = {};
 
@@ -28,7 +30,11 @@ function createGeoJSON( inputHappenings ){
           "type": "FeatureCollection",
           "features": []
         }
-      } // end source
+      }, // end source
+      "layout": {
+        "icon-image": "{icon}-11",
+        "icon-allow-overlap": true
+      } // end layout
     } // end let outputGeoJSON
 
     // Loop over each happenings passed as an argument and add to geoJSON
@@ -37,7 +43,8 @@ function createGeoJSON( inputHappenings ){
         {
           "type": "Feature",
           "properties": {
-            "description": `${ happening.name } - ${ happening.happening_type }`
+            "description": `${ happening.name } - ${ happening.happening_type }`,
+            "icon": "circle"
           },
           "geometry": {
             "type": "Point",
@@ -54,6 +61,7 @@ function createGeoJSON( inputHappenings ){
 } // end function createGeoJSON
 
 let map = "";
+let mapPopup = "";
 
 export default class Search extends Component {
   constructor(props) {
@@ -103,7 +111,7 @@ export default class Search extends Component {
       type = this.state.type;
     }
 
-    let maxRequests = 1;
+    let maxRequests = 2;
     let offset = 0;
     let tempArray = [];
 
@@ -141,6 +149,35 @@ export default class Search extends Component {
     }
   } // end fetchPredict
 
+  showMapPopup(lng, lat, description) {
+    const popup = new mapboxgl.Popup({
+      closeButton: false,
+      closeOnClick: false,
+      offset: 30
+    });
+
+    const coordinates = [lng, lat];
+
+    // Ensure that if the map is zoomed out such that multiple
+    // copies of the feature are visible, the popup appears
+    // over the copy being pointed to.
+    while (Math.abs(lng - coordinates[0]) > 180) {
+      coordinates[0] += lng > coordinates[0] ? 360 : -360;
+    }
+
+    // Populate the popup and set its coordinates
+    // based on the feature found.
+    popup.setLngLat(coordinates)
+      .setHTML(description)
+      .addTo(map);
+
+    mapPopup = popup;
+  }
+
+  removeMapPopup(popup) {
+    popup.remove();
+  }
+
   createMap() {
     if (this.mapContainer) {
       const { longitude, latitude, proximity, zoom } = this.state;
@@ -155,37 +192,17 @@ export default class Search extends Component {
         map.addControl(new mapboxgl.FullscreenControl());
         
         map.on('load', () => {
-          // map.addLayer( geoJSON )
-          map.addLayer({
-            "id": "places",
-            "type": "symbol",
-            "source": {
-                "type": "geojson",
-                "data": {
-                    "type": "FeatureCollection",
-                    "features": [{
-                        "type": "Feature",
-                        "properties": {
-                            "description": "James Cameron — Challenging the Deep",
-                            "icon": "theatre"
-                        },
-                        "geometry": {
-                            "type": "Point",
-                            "coordinates": [151.197917, -33.869169]
-                        }
-                    }]
-                }
-            },
-            "layout": {
-                "icon-image": "{icon}-15",
-                "icon-allow-overlap": true
-            }
-          });
+          // const geoJSON = 
+          const geoJSON = createGeoJSON( this.state.nearbyHappenings );
 
           const popup = new mapboxgl.Popup({
             closeButton: false,
-            closeOnClick: false
+            closeOnClick: false,
+            offset: 30
           });
+
+          // Add the new layer based on derived geoJSON
+          map.addLayer( geoJSON );
 
           map.on('mouseenter', 'places', function(e) {
             // Change the cursor style as a UI indicator.
@@ -211,12 +228,7 @@ export default class Search extends Component {
             map.getCanvas().style.cursor = '';
             popup.remove();
           });
-        });
-      // }else{
-      //   map.setCenter([longitude, latitude]);
-      //   let newZoom = map.getZoom();
-      //   map.setZoom(newZoom);
-      // }
+        }); // end map onLoad
 
       // Drop a default marker on the center of the map
       const marker = new mapboxgl.Marker({ color: this.markerColors['default'] })
@@ -249,7 +261,7 @@ export default class Search extends Component {
   showPage(happening) {
     this.props.history.push(`happenings/${happening.id}`)
   }
-
+  
   displayHappenings() {
     let happeningsToDisplay = [];
     const numFound = this.state.nearbyHappenings.length;
@@ -263,11 +275,10 @@ export default class Search extends Component {
         const happening = this.state.nearbyHappenings[i];
         const type = happening.happening_type;
         const displayType = type.replace('-', ' ');
-        console.log(happening.when)
         let date = dateFormat(happening.when, " HH:MM dddd, mmmm dS - ") + dateFormat(happening.time, "HH:MM dddd, mmmm dS")
-        console.log(dateFormat(happening.when, "HH:MM dddd, mmmm dS -"))
-        happeningRows.push(<li onClick={() => this.showPage(happening)} className='panel titles' key={i}>{happening.name} <Badge className={'badge-' + type}>{displayType}</Badge><p className="inline searchDate">{date}</p></li>);
-        happeningRows.push(<li key={ 'desc-' + i } className='panel-desc'>{ happening.description }</li>);
+        happeningRows.push(<li onClick={() => this.showPage(happening)} onMouseOver={() => this.showMapPopup( happening.longitude, happening.latitude, happening.name)} onMouseOut={() => this.removeMapPopup(mapPopup)}className='panel titles' key={i}>{happening.name} <Badge className={'badge-' + type}>{displayType}</Badge>
+        <div className="panel-date">{date}</div></li>);
+        happeningRows.push(<li onClick={() => this.showPage(happening)} onMouseOver={() => this.showMapPopup( happening.longitude, happening.latitude, happening.name)} onMouseOut={() => this.removeMapPopup(mapPopup)} key={ 'desc-' + i } className='panel-desc'>{ happening.description }</li>);
       }
 
       happeningsToDisplay.push(<div className='happenings-container' key='container-1'><ul key='ul-1'>{ happeningRows }</ul></div>);
