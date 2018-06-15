@@ -93,7 +93,11 @@ export default class Header extends React.Component {
         }
       }
     }
-    this.props.newSearch(latitude, longitude, type, location, locationType)
+    console.log(this.props.where)
+    if (this.props.where === "show") {
+      console.log("IN show page")
+    }
+    // this.props.newSearch(latitude, longitude, type, location, locationType)
   }
 
   render() {

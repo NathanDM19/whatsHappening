@@ -88,7 +88,7 @@ class Show extends Component {
               <div onClick={this.datesShow} style={{ height: `${this.state.dates.height}px` }}  className="rectangles rectangle3">
                 Dates & Times
               </div>
-              {this.state.description.show ? <DescriptionShow happening={this.state.happening}/> : null}
+              {this.state.description.show ? <DescriptionShow where="show" happening={this.state.happening}/> : null}
               {this.state.details.show ? <DetailsShow happening={this.state.happening}/> : null}
               {this.state.dates.show ? <DatesShow happening={this.state.happening}/> : null}  
               <div className="paddingBelow">
