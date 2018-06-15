@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Arvo:400,700|Lato:300,900|Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Arvo:400,500,700|Lato:300,700,900|Open+Sans');
 
 html, body {
   margin: 0px;
@@ -76,14 +76,30 @@ html, body {
 
 .panel-desc {
   list-style-type: none;
-  margin-bottom: 5px;
+  margin-bottom: 12px;
   /* height: 100px; */
   padding-left: 10px;
   padding-bottom: 10px;
-  /* width: 90%; */
+  width: 95%;
   overflow: hidden;
   text-overflow: ellipsis;
   hyphens: auto;
+  max-height: 3em;
+  /* max-height: 100px; */
+  /* white-space: nowrap; */
+  cursor: pointer;
+
+}
+
+.panel-date {
+  /* color: grey;
+  font-size: 12px; */
+  /* font-style: italic; */
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .fullHeight {
@@ -281,6 +297,10 @@ html, body {
   background-color: #ff3333;
 }
 
+.badge-festivals {
+  background-color: #0080ff;
+}
+
 .badge-sports {
   background-color: #ffff00;
   color: #000000;
@@ -290,10 +310,10 @@ html, body {
   background-color: #00cc00;
 }
 
-.mapboxgl-popup {
+/* .mapboxgl-popup {
   max-width: 400px;
   font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-}
+} */
 .titles:hover {
   cursor: pointer;
 }
