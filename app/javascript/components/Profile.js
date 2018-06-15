@@ -13,7 +13,7 @@ class Profile extends React.Component {
 
   componentDidMount() {
     const fetchUser = () => {
-      axios.get(`http://localhost:3000/getuser.json`)
+      axios.get(`getuser.json`)
         .then(response => {
           this.setState({user: response.data})
         })
