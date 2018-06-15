@@ -22,7 +22,6 @@ class DetailsShow extends Component {
       })    
   }
   createMap() {
-    console.log("Making map")
     if (this.mapContainer) {
       
       const { longitude, latitude } = this.props.happening;
@@ -43,7 +42,7 @@ class DetailsShow extends Component {
     }
     return (
       <div className="showMap">
-        <div ref={el => this.mapContainer = el} className="absolute top right left bottom" />
+        <div ref={el => this.mapContainer = el} style={{ height: "455px" }} className="absolute top right left bottom" />
       </div>
     );
   }

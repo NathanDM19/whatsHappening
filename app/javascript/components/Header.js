@@ -90,14 +90,15 @@ export default class Header extends React.Component {
           longitude = foundLocation.center[0];
           latitude = foundLocation.center[1];
           locationType = foundLocation.place_type;
+          location = foundLocation.place_name
         }
       }
     }
-    console.log(this.props.where)
     if (this.props.where === "show") {
-      console.log("IN show page")
+      this.props.history.push({pathname: "/", state: {latitude, longitude, type, location, locationType}})
+    } else {
+      this.props.newSearch(latitude, longitude, type, location, locationType)
     }
-    // this.props.newSearch(latitude, longitude, type, location, locationType)
   }
 
   render() {

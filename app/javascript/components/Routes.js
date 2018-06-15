@@ -14,11 +14,11 @@ const Routes = (
   <div>
   <Router>
     <Switch>
-      <Route exact path="/" component={ Home } />
+      <Route exact path="/" component={ Search2 } />
       <Route path="/happenings/:id" component={ Show } />
       <Route exact path="/test" component={ Test } />
       <Route exact path="/search/:latitude/:longitude/:proximity" component={Search} />
-      <Route exact path="/search2" component={Search2} />
+      {/* <Route exact path="/search2" component={Search2} /> */}
         <Route exact path="/profile" component={Profile} />      
     </Switch>
     </Router>

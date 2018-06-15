@@ -8,8 +8,8 @@ class DatesShow extends Component {
   render() {
     return (
       <div className="bottomShow">
-        <p>From: {dateFormat(this.props.happening.when, " HH:MM dddd, mmmm dS")}</p>
-        <p>To: {dateFormat(this.props.happening.time, "HH:MM dddd, mmmm dS")}</p>
+        From: {dateFormat(this.props.happening.when, " HH:MM dddd, mmmm dS")}<br />
+        To: {dateFormat(this.props.happening.time, "HH:MM dddd, mmmm dS")}
       </div>
     )
   }

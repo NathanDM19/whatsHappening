@@ -13,7 +13,9 @@ function Footer() {
     </div>
   );
 }
-
+window.onresize = function () {
+  document.getElementById('mainMap').style.height = `${window.innerHeight-62}px`
+}
 function createGeoJSON( inputHappenings ){
   let outputGeoJSON = {};
 
@@ -58,24 +60,47 @@ let map = "";
 export default class Search extends Component {
   constructor(props) {
     super(props);
-
-    // Default the map to Sydney
-    this.state = {
-      location: 'Sydney, NSW',
-      latitude: -33.8688197,
-      longitude: 151.20929550000005,
-      proximity: 2,
-      zoom: 13.5,
-      nearbyHappenings: {},
-      type: ""
-    }
+    if (this.props.location.state) {
+      console.log(this.props.location.state)
+      if (this.props.location.state.locationType[0] === "postcode") {
+        this.state = {
+          location: this.props.location.state.location.split(",")[0]+this.props.location.state.location.split(",")[1],
+          latitude: this.props.location.state.latitude,
+          longitude: this.props.location.state.longitude,
+          proximity: 2,
+          zoom: 13.5,
+          nearbyHappenings: {},
+          type: this.props.location.state.type
+        }
+      } else if (this.props.location.state.locationType[0] === "locality") {
+        this.state = {
+          location: this.props.location.state.location.split(",")[0],
+          latitude: this.props.location.state.latitude,
+          longitude: this.props.location.state.longitude,
+          proximity: 2,
+          zoom: 13.5,
+          nearbyHappenings: {},
+          type: this.props.location.state.type
+        }
+      }
+    } else {
+      // Default the map to Sydney when the page is first loaded
+      this.state = {
+        location: 'Sydney, NSW',
+        latitude: -33.8688197,
+        longitude: 151.20929550000005,
+        proximity: 2,
+        zoom: 13.5,
+        nearbyHappenings: {},
+        type: ""
+      }
+    }  
 
     this.createMap = this.createMap.bind(this);
     this.displayHappenings = this.displayHappenings.bind(this);
     this.setDetails = this.setDetails.bind(this)
     this.fetchPredict = this.fetchPredict.bind(this)
     this.searchArea = this.searchArea.bind(this)
-
     // Run fetch predict to seed the happenings for the default location
     this.fetchPredict()
 
@@ -95,15 +120,19 @@ export default class Search extends Component {
       community: '#00cc00' 
     }
   } // end constructor
-
+  componentDidMount() {
+  }
   fetchPredict(longitude, latitude, type) {
-    if (!longitude) {
+    if (!longitude && !type) {
       longitude = this.state.longitude;
       latitude = this.state.latitude;
       type = this.state.type;
+    } else if (!longitude) {
+      longitude = this.state.longitude;
+      latitude = this.state.latitude;      
     }
 
-    let maxRequests = 1;
+    let maxRequests = 2;
     let offset = 0;
     let tempArray = [];
 
@@ -222,7 +251,7 @@ export default class Search extends Component {
       const marker = new mapboxgl.Marker({ color: this.markerColors['default'] })
         .setLngLat([longitude, latitude])
         .addTo(map);
-
+      
       // Plot markings on map where happenings are
       if ( this.state.nearbyHappenings ) {
         this.state.nearbyHappenings.forEach(marker => 
@@ -236,12 +265,12 @@ export default class Search extends Component {
         document.getElementById('searchArea').style.display = "block"
       });
     } // end createMap
-
+    let height = window.innerHeight - 62
     return (
       <div>
         <div className="inline-block absolute top left mt12 ml12 bg-darken75 color-white z1 py6 px12 round-full txt-s txt-bold">
         </div>
-        <div ref={el => this.mapContainer = el} className="absolute top right left bottom" />
+        <div ref={el => this.mapContainer = el} id="mainMap" style={{height: `${height}px`}}className="absolute top right left bottom" />
       </div>
     );
   }
@@ -263,14 +292,11 @@ export default class Search extends Component {
         const happening = this.state.nearbyHappenings[i];
         const type = happening.happening_type;
         const displayType = type.replace('-', ' ');
-        console.log(happening.when)
         let date = dateFormat(happening.when, " HH:MM dddd, mmmm dS - ") + dateFormat(happening.time, "HH:MM dddd, mmmm dS")
-        console.log(dateFormat(happening.when, "HH:MM dddd, mmmm dS -"))
         happeningRows.push(<li onClick={() => this.showPage(happening)} className='panel titles' key={i}>{happening.name} <Badge className={'badge-' + type}>{displayType}</Badge><p className="inline searchDate">{date}</p></li>);
         happeningRows.push(<li key={ 'desc-' + i } className='panel-desc'>{ happening.description }</li>);
       }
-
-      happeningsToDisplay.push(<div className='happenings-container' key='container-1'><ul key='ul-1'>{ happeningRows }</ul></div>);
+      happeningsToDisplay.push(<div className='happenings-container' id="happeningsContainer" key='container-1'><ul key='ul-1'>{happeningRows}</ul></div>);
     } else {
       happeningsToDisplay.push(<p key='p-1'>No happenings found ... please search again</p>);
     }
@@ -289,8 +315,16 @@ export default class Search extends Component {
     }
     this.fetchPredict(longitude, latitude, type);
   }
-
+  getSuburb(longitude, latitude) {
+    const mapboxAccessToken = 'pk.eyJ1IjoiZ3Jvb3RoZXdhbmRlcmVyIiwiYSI6ImNqaWI3MmQ2aTFmM3ozcG5iaGMzMW9oc3QifQ.CwYqjyg85TWZYLiwBxbg8w';
+    const mapboxUrlPrefix = 'https://api.mapbox.com/geocoding/v5/mapbox.places';
+    axios.get(`${mapboxUrlPrefix}/${longitude},${latitude}.json?&access_token=${mapboxAccessToken}&country=AU&types=locality`)
+      .then(response => {
+        this.setState({ location: response.data.features[0].place_name.split(",")[0] })
+      })  
+  }
   searchArea() {
+    this.getSuburb(map.getCenter().lng, map.getCenter().lat)
     this.setState({ longitude: map.getCenter().lng, latitude: map.getCenter().lat, zoom: map.getZoom() })
     this.fetchPredict(map.getCenter().lng, map.getCenter().lat, this.state.type)
     document.getElementById('searchArea').style.display = "none"
@@ -309,6 +343,10 @@ export default class Search extends Component {
           </Col>
           <Col lg="6" className='happenings-list'>
             {this.displayHappenings()}
+            {this.state.nearbyHappenings.length > 5 ?
+              <div className="bounce-down scroll-bottom">
+                <i className="fas fa-angle-down"></i>
+              </div> : null}
           </Col>
         </Row>
         <Row noGutters>

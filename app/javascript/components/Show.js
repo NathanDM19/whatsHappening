@@ -9,6 +9,14 @@ import Header from './Header'
 const SERVER_URL = "https://api.predicthq.com/v1"
 const BING_URL = "https://api.cognitive.microsoft.com/bing/v7.0/images/search"
 
+function Footer() {
+  return (
+    <div className='footer'>
+      &copy; 2018 What's Happening Pty Ltd
+    </div>
+  );
+}
+
 class Show extends Component {
   constructor(props) {
     super(props)
@@ -29,7 +37,7 @@ class Show extends Component {
     const fetchHappening = () => {
       axios.get(`${SERVER_URL}/events/?id=${this.props.match.params.id}`, { headers: { Authorization: "Bearer wGTgFr7Ad0XF4eGGhnHdFPoksITNZJ" } })  
         .then(response => {
-          // console.log(respose.data)
+          // console.log(response.data)
           let tempObject = {}
           let result = response.data.results[0]
           tempObject.latitude = result.location[1]
@@ -47,6 +55,7 @@ class Show extends Component {
     const fetchImage = (query) => {
       axios.get(`${BING_URL}?q=${query}&minHeight=200&minWidth=400`, { headers: { "Ocp-Apim-Subscription-Key": "f320125b2f884bcd8fe0ca858c90cd86"}})
         .then(response => {
+          // console.log(response.data)
         this.setState({imageUrl: response.data.value[0].contentUrl})
       })
     }
@@ -69,7 +78,7 @@ class Show extends Component {
   render() {
     return (
       <div>
-        <Header/>
+        <Header where="show" history={this.props.history}/>
         <div className="topShowDiv">
           <h2 className="showName">{this.state.happening.name}</h2>
         </div>  
@@ -88,7 +97,7 @@ class Show extends Component {
               <div onClick={this.datesShow} style={{ height: `${this.state.dates.height}px` }}  className="rectangles rectangle3">
                 Dates & Times
               </div>
-              {this.state.description.show ? <DescriptionShow where="show" happening={this.state.happening}/> : null}
+              {this.state.description.show ? <DescriptionShow  happening={this.state.happening}/> : null}
               {this.state.details.show ? <DetailsShow happening={this.state.happening}/> : null}
               {this.state.dates.show ? <DatesShow happening={this.state.happening}/> : null}  
               <div className="paddingBelow">
@@ -96,6 +105,7 @@ class Show extends Component {
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     )
   }

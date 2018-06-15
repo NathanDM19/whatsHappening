@@ -3,7 +3,6 @@
     overflow: hidden;
     position: relative;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
-    height: 672px;
     width: calc(100% - 2px);
     z-index: 1;
 }
