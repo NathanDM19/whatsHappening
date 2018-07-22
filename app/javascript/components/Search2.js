@@ -14,7 +14,7 @@ function Footer() {
   );
 }
 window.onresize = function () {
-  document.getElementById('mainMap').style.height = `${window.innerHeight-62}px`
+  document.getElementById('mainMap').style.height = `${window.innerHeight-110}px`
 }
 function createGeoJSON( inputHappenings ){
   let outputGeoJSON = {};
@@ -43,7 +43,7 @@ function createGeoJSON( inputHappenings ){
         {
           "type": "Feature",
           "properties": {
-            "description": `${ happening.name } - ${ happening.happening_type }`,
+            "description": `${ happening.name }`,
             "icon": "circle"
           },
           "geometry": {
@@ -146,7 +146,7 @@ export default class Search extends Component {
     const predictUrlPrefix = "https://api.predicthq.com/v1"
 
     for ( let request = 0; request < maxRequests; request++ ){
-      axios.get(`${predictUrlPrefix}/events/?country=AU&within=${proximity}km@${latitude},${longitude}&q=${type}&offset=${ offset }`, { headers: { Authorization: "Bearer wGTgFr7Ad0XF4eGGhnHdFPoksITNZJ" } })
+      axios.get(`${predictUrlPrefix}/events/?country=AU&within=${proximity}km@${latitude},${longitude}&q=${type}&offset=${ offset }`, { headers: { Authorization: "Bearer uhQc0hpHXJRWMCez6LLJ6dchEGARdi" } })
         .then(response => {
           for (let i = 0; i < response.data.results.length; i++) {
             let result = response.data.results[i]
@@ -236,7 +236,7 @@ export default class Search extends Component {
             map.getCanvas().style.cursor = 'pointer';
             const coordinates = e.features[0].geometry.coordinates.slice();
             const description = e.features[0].properties.description;
-  
+
             // Ensure that if the map is zoomed out such that multiple
             // copies of the feature are visible, the popup appears
             // over the copy being pointed to.
@@ -275,7 +275,7 @@ export default class Search extends Component {
         document.getElementById('searchArea').style.display = "block"
       });
     } // end createMap
-    let height = window.innerHeight - 62
+    let height = window.innerHeight - 110
     return (
       <div>
         <div className="inline-block absolute top left mt12 ml12 bg-darken75 color-white z1 py6 px12 round-full txt-s txt-bold">
