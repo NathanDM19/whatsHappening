@@ -35,7 +35,7 @@ class Show extends Component {
 
   componentDidMount() {
     const fetchHappening = () => {
-      axios.get(`${SERVER_URL}/events/?id=${this.props.match.params.id}`, { headers: { Authorization: "Bearer wGTgFr7Ad0XF4eGGhnHdFPoksITNZJ" } })  
+      axios.get(`${SERVER_URL}/events/?id=${this.props.match.params.id}`, { headers: { Authorization: "Bearer uhQc0hpHXJRWMCez6LLJ6dchEGARdi" } })  
         .then(response => {
           // console.log(response.data)
           let tempObject = {}
@@ -53,7 +53,7 @@ class Show extends Component {
         })
     }
     const fetchImage = (query) => {
-      axios.get(`${BING_URL}?q=${query}&minHeight=200&minWidth=400`, { headers: { "Ocp-Apim-Subscription-Key": "f320125b2f884bcd8fe0ca858c90cd86"}})
+      axios.get(`${BING_URL}?q=${query}&minHeight=200&minWidth=400`, { headers: { "Ocp-Apim-Subscription-Key": "471bf23727964760bb9be36f73effb5a"}})
         .then(response => {
           // console.log(response.data)
         this.setState({imageUrl: response.data.value[0].contentUrl})
@@ -63,15 +63,12 @@ class Show extends Component {
   }
 
   descriptionShow() {
-    console.log("description")
     this.setState({ description: { show: true, height: 70 }, details: { show: false, height: 50 }, dates: {show: false, height: 50}})
   }
   detailsShow() {
-    console.log("details")    
     this.setState({ description: { show: false, height: 50 }, details: { show: true, height: 70 }, dates: { show: false, height: 50 }})
   }
   datesShow() {
-    console.log("dates")    
     this.setState({ description: { show: false, height: 50 }, details: { show: false, height: 50 }, dates: { show: true, height: 70 }})
   }
 

@@ -17,7 +17,6 @@ class DetailsShow extends Component {
   componentDidMount() {
     axios.get(`${mapboxUrlPrefix}/${this.props.happening.longitude},${this.props.happening.latitude}.json?&access_token=${mapboxAccessToken}&country=AU&types=address`)
       .then(response => {
-        console.log(response)
         this.setState({ address: response.data.features[0].place_name })
       })    
   }
